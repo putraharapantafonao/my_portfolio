@@ -6,16 +6,14 @@
     <title>Putra Harapan Tafonao | Portofolio</title>
     <meta name="description" content="Portofolio Personal Putra Harapan Tafonao, Mahasiswa Teknik Informatika yang berfokus pada Web Development dan UI/UX Design.">
 
-    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
 
-    <link rel="stylesheet" href="{{ secure_asset('build/assets/app.css') }}">
-    <script src="{{ secure_asset('build/assets/app.js') }}" defer></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
+<body class="bg-[#030712] text-gray-100 overflow-x-hidden">
 
 <canvas id="hero-canvas"></canvas>
 <div class="orb orb-1"></div>
@@ -206,35 +204,34 @@
             <div class="section-line" style="max-width:200px;"></div>
         </div>
         <div id="project-container" class="projects-grid">
-    @foreach($projects as $index => $p)
-        <div data-aos="fade-up" data-aos-delay="{{ $index * 110 }}" class="proj-card">
-            <a href="{{ $p->link }}" target="_blank" rel="noopener noreferrer">
-                <div class="proj-img-wrap">
-                    <img src="{{ asset($p->image) }}" alt="{{ $p->title }}" onerror="this.src='{{ $p->fallbackImg }}'">
-                    <div class="proj-overlay">
-                        <span><i class="fas fa-external-link-alt" style="font-size:.7rem"></i>Lihat Proyek</span>
+            @foreach($projects as $index => $p)
+                <div data-aos="fade-up" data-aos-delay="{{ $index * 110 }}" class="proj-card">
+                    <a href="{{ $p->link }}" target="_blank" rel="noopener noreferrer">
+                        <div class="proj-img-wrap">
+                            <img src="{{ asset($p->image) }}" alt="{{ $p->title }}" onerror="this.src='{{ $p->fallbackImg }}'">
+                            <div class="proj-overlay">
+                                <span><i class="fas fa-external-link-alt" style="font-size:.7rem"></i>Lihat Proyek</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="proj-body">
+                        <a href="{{ $p->link }}" target="_blank" class="proj-title">{{ $p->title }}</a>
+                        <p class="proj-desc">{{ $p->description }}</p>
+                        <div class="proj-tags">
+                            @foreach(explode(',', $p->tags) as $tag)
+                                <span class="tag">{{ trim($tag) }}</span>
+                            @endforeach
+                        </div>
                     </div>
                 </div>
-            </a>
-            <div class="proj-body">
-                <a href="{{ $p->link }}" target="_blank" class="proj-title">{{ $p->title }}</a>
-                <p class="proj-desc">{{ $p->description }}</p>
-                <div class="proj-tags">
-                    @foreach(explode(',', $p->tags) as $tag)
-                        <span class="tag">{{ trim($tag) }}</span>
-                    @endforeach
-                </div>
-            </div>
+            @endforeach
         </div>
-    @endforeach
-</div>
     </div>
 </section>
 
 <section id="experience" class="section-wrap">
     <div class="max-w container">
         <div class="exp-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;">
-
             <div data-aos="fade-right">
                 <div class="section-header">
                     <span class="section-num">04.</span>
@@ -242,7 +239,6 @@
                 </div>
                 <div class="timeline">
                     <div class="timeline-bar"></div>
-
                     <div class="t-item">
                         <div class="t-dot"></div>
                         <div class="exp-card">
@@ -252,7 +248,6 @@
                             <div class="exp-desc">Merancang materi visual dan mengelola konten digital organisasi, mengasah keahlian di bidang estetika desain dan UI/UX.</div>
                         </div>
                     </div>
-
                     <div class="t-item">
                         <div class="t-dot dim"></div>
                         <div class="exp-card">
@@ -262,7 +257,6 @@
                             <div class="exp-desc">Terjun langsung dalam pendampingan siswa, melatih kecerdasan emosional dan problem-solving lapangan.</div>
                         </div>
                     </div>
-
                     <div class="t-item">
                         <div class="t-dot" style="background:linear-gradient(135deg,var(--accent),var(--primary));box-shadow:0 0 12px var(--accent)"></div>
                         <div class="exp-card" style="border-color:rgba(0,245,212,0.3);background:rgba(0,245,212,0.025);">
@@ -279,7 +273,6 @@
                     <span class="section-num">05.</span>
                     <h2 class="section-title">Certificates</h2>
                 </div>
-
                 <a href="https://www.dicoding.com/certificates/0LZ0Y9473X65" target="_blank" class="cert-card">
                     <div class="cert-left">
                         <div class="cert-icon"><i class="fas fa-code"></i></div>
@@ -287,7 +280,6 @@
                     </div>
                     <div class="cert-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </a>
-
                 <a href="https://www.dicoding.com/certificates/ERZRLGY32ZYV" target="_blank" class="cert-card">
                     <div class="cert-left">
                         <div class="cert-icon" style="color:#a78bfa;background:rgba(167,139,250,0.1);border-color:rgba(167,139,250,0.2)"><i class="fas fa-robot"></i></div>
@@ -295,7 +287,6 @@
                     </div>
                     <div class="cert-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </a>
-
                 <a href="https://www.dicoding.com/certificates/MRZMWQJ1RPYQ" target="_blank" class="cert-card">
                     <div class="cert-left">
                         <div class="cert-icon" style="color:#7f52ff;background:rgba(127,82,255,0.1);border-color:rgba(127,82,255,0.2)"><i class="devicon-kotlin-plain" style="font-size:1.05rem"></i></div>
@@ -303,7 +294,6 @@
                     </div>
                     <div class="cert-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </a>
-
                 <a href="https://www.dicoding.com/certificates/JLX1VD2K5Z72" target="_blank" class="cert-card">
                     <div class="cert-left">
                         <div class="cert-icon" style="color:#f97316;background:rgba(249,115,22,0.1);border-color:rgba(249,115,22,0.2)"><i class="fas fa-chart-line"></i></div>
@@ -311,7 +301,6 @@
                     </div>
                     <div class="cert-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </a>
-
                 <div style="text-align:center;margin-top:1.2rem;">
                     <a href="https://drive.google.com/drive/folders/1BSOM43RpDUNJiQNDibaI37O80pZB7CJS" target="_blank"
                        style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:var(--accent);border:1px solid var(--border);padding:0.65rem 1.4rem;border-radius:6px;text-decoration:none;transition:all 0.28s;"
@@ -321,7 +310,6 @@
                     </a>
                 </div>
             </div>
-
         </div>
     </div>
 </section>
@@ -355,7 +343,14 @@
 </footer>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-<script src="{{ asset('assets/js/projects.js') }}"></script>
-<script src="{{ asset('assets/js/script.js') }}"></script>
+<script>
+    // Membantu inisialisasi AOS setelah halaman selesai dimuat total
+    document.addEventListener('DOMContentLoaded', function() {
+        AOS.init({
+            once: true,
+            mirror: false
+        });
+    });
+</script>
 </body>
 </html>
