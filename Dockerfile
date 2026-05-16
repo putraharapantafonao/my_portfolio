@@ -1,6 +1,6 @@
 FROM php:8.2-fpm
 
-# 1. Install dependensi sistem, Nginx, dan ekstensi PHP untuk Laravel
+# 1. Install dependensi sistem, Nginx, edisi PHP, dan Node.js (untuk compile Vite)
 RUN apt-get update && apt-get install -y \
     nginx \
     libpng-dev \
@@ -10,6 +10,8 @@ RUN apt-get update && apt-get install -y \
     unzip \
     git \
     curl \
+    && curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
+    && apt-get install -y nodejs \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
 # 2. Hapus konfigurasi bawaan Nginx agar tidak menimpa Laravel
@@ -50,10 +52,14 @@ COPY . .
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader
 
-# 7. Atur hak akses folder agar Laravel tidak Error 500
+# 7. Install NPM dan Compile Aset Tailwind/Vite langsung di dalam server
+RUN npm install \
+    && npm run build
+
+# 8. Atur hak akses folder agar Laravel tidak Error 500
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
 
-# 8. Jalankan PHP-FPM dan Nginx secara bersamaan saat server menyala
+# 9. Jalankan PHP-FPM dan Nginx secara bersamaan saat server menyala
 CMD php-fpm -D && nginx -g "daemon off;"
