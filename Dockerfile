@@ -50,10 +50,12 @@ COPY . .
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader
 
+# TAMBAHKAN BARIS INI: Memaksa Laravel membuang semua cache konfigurasi lama saat build
+RUN php artisan config:clear && php artisan cache:clear
+
 # 7. Atur hak akses folder agar Laravel tidak Error 500
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
 
 EXPOSE 80
 
-# 8. Jalankan PHP-FPM dan Nginx secara bersamaan saat server menyala
 CMD php-fpm -D && nginx -g "daemon off;"
