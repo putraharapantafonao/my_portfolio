@@ -7,7 +7,7 @@ const myProjects = [
         image: "assets/img/putra.dev.png", // Screenshot web portofoliomu ini nanti
         fallbackImg: "https://via.placeholder.com/600x400.png?text=Personal+Portfolio",
         tags: ["HTML", "Tailwind CSS", "JavaScript", "UI/UX"],
-        link: "#" // Biarkan '#' jika belum di-hosting, atau ganti dengan link GitHub Pages-mu nanti
+        link: "https://putraharapantafonao.github.io/my_portfolio/"
     },
 
     {
