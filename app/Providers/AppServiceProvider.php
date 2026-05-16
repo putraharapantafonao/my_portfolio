@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\URL; // <-- PASTIKAN BARIS INI ADA
+use Illuminate\Support\Facades\URL; // Memastikan fasad URL ter-import dengan benar
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,8 +20,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        // TAMBAHKAN BARIS INI: Paksa HTTPS jika berjalan di server online (Railway)
-        if (config('app.env') === 'production') {
+        /**
+         * PENGAMAN MIXED CONTENT (HTTPS FORCE)
+         * Memaksa Laravel mengubah skema URL asset, @vite, dan route menjadi HTTPS.
+         * Kode ini memeriksa sistem config aplikasi DAN variabel env Docker secara bersamaan.
+         */
+        if (config('app.env') === 'production' || env('APP_ENV') === 'production') {
             URL::forceScheme('https');
         }
     }

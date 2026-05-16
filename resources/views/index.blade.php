@@ -11,7 +11,7 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
 
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/style.css') }}">
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="bg-[#030712] text-gray-100 overflow-x-hidden">
 
@@ -245,7 +245,7 @@
                             <div class="exp-title">Anggota Divisi Desain & Broadcasting</div>
                             <div class="exp-org">FORMADIKSI KIP-K Unimal</div>
                             <div class="exp-date">2025 – 2026</div>
-                            <div class="exp-desc">Merancang materi visual dan mengelola konten digital organisasi, mengasah keahlian di bidang estetika desain dan UI/UX.</div>
+                            <div class="exp-desc">Merancang materi visual dan mengelola konten digital organisasi, mengasah keahlian di bidang estetika desain and UI/UX.</div>
                         </div>
                     </div>
                     <div class="t-item">
