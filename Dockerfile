@@ -1,6 +1,6 @@
 FROM php:8.2-fpm
 
-# 1. Install dependensi sistem, Nginx, dan ekstensi PHP untuk Laravel
+# 1. Install dependensi sistem, Nginx, dan edisi PHP untuk Laravel
 RUN apt-get update && apt-get install -y \
     nginx \
     libpng-dev \
@@ -12,13 +12,15 @@ RUN apt-get update && apt-get install -y \
     curl \
     && docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd
 
-# 2. Hapus konfigurasi bawaan Nginx
-RUN rm /etc/nginx/sites-enabled/default
+# 2. HAPUS TOTAL semua konfigurasi bawaan Nginx agar tidak menimpa Laravel
+RUN rm -f /etc/nginx/sites-enabled/default \
+    && rm -f /etc/nginx/sites-available/default \
+    && rm -rf /var/www/html/*
 
-# 3. Buat konfigurasi Nginx baru khusus untuk Laravel
+# 3. Buat konfigurasi Nginx baru langsung ke folder default utama
 RUN echo 'server { \n\
-    listen 80; \n\
-    server_name localhost; \n\
+    listen 80 default_server; \n\
+    listen [::]:80 default_server; \n\
     root /var/www/html/public; \n\
     index index.php index.html; \n\
     charset utf-8; \n\
@@ -29,16 +31,14 @@ RUN echo 'server { \n\
     location = /robots.txt  { access_log off; log_not_found off; } \n\
     error_page 404 /index.php; \n\
     location ~ \.php$ { \n\
+        include fastcgi_params; \n\
         fastcgi_pass 127.0.0.1:9000; \n\
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \n\
-        include fastcgi_params; \n\
     } \n\
     location ~ /\.(?!well-known).* { \n\
         deny all; \n\
     } \n\
-}' > /etc/nginx/sites-available/laravel
-
-RUN ln -s /etc/nginx/sites-available/laravel /etc/nginx/sites-enabled/
+}' > /etc/nginx/sites-enabled/default
 
 # 4. Set folder kerja di dalam server
 WORKDIR /var/www/html
