@@ -46,12 +46,15 @@ WORKDIR /var/www/html
 # 5. Copy seluruh isi proyek kamu ke dalam kontainer
 COPY . .
 
+# ... (bagian atas biarkan tetap utuh sama seperti sebelumnya) ...
+
 # 6. Install Composer dan dependensi Laravel
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 RUN composer install --no-dev --optimize-autoloader
 
-# TAMBAHKAN BARIS INI: Memaksa Laravel membuang semua cache konfigurasi lama saat build
-RUN php artisan config:clear && php artisan cache:clear
+# === TAMBAHKAN BARIS INI (PENTING) ===
+# Memaksa Laravel membuang semua cache konfigurasi lokal laptop saat berada di server cloud
+RUN php artisan config:clear && php artisan cache:clear && php artisan route:clear
 
 # 7. Atur hak akses folder agar Laravel tidak Error 500
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
