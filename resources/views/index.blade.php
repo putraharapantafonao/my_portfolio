@@ -12,7 +12,8 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
 
-    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ secure_asset('build/assets/app.css') }}">
+    <script src="{{ secure_asset('build/assets/app.js') }}" defer></script>
 </head>
 <body>
 
