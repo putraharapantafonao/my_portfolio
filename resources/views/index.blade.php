@@ -22,7 +22,7 @@
 
 <nav>
     <div class="nav-inner">
-        <a href="#" class="logo">&lt;Putra /&gt;</a>
+        <a href="#" class="logo" aria-label="Beranda Putra">&lt;Putra /&gt;</a>
         <div class="nav-links">
             <a href="#about" class="nav-link">about</a>
             <a href="#skills" class="nav-link">skills</a>
@@ -32,7 +32,7 @@
         <div style="display:flex;align-items:center;gap:1rem;">
             <a href="#contact" class="btn-nav" style="display:none;" id="contact-nav">contact_me()</a>
             <script>document.getElementById('contact-nav').style.display='block';</script>
-            <button id="mobile-btn" onclick="document.getElementById('mobile-menu').style.display=document.getElementById('mobile-menu').style.display==='block'?'none':'block'">
+            <button id="mobile-btn" aria-label="Buka Menu" onclick="document.getElementById('mobile-menu').style.display=document.getElementById('mobile-menu').style.display==='block'?'none':'block'">
                 <i class="fas fa-bars"></i>
             </button>
         </div>
@@ -60,7 +60,7 @@
             </p>
             <div class="hero-btns justify-center md:justify-start w-full">
                 <a href="#projects" class="btn-primary"><i class="fas fa-terminal"></i>Lihat Proyek</a>
-                <a href="assets/pdf/CV_Putra_Harapan_Tafonao.pdf" target="_blank" class="btn-secondary"><i class="fas fa-file-alt"></i>Unduh CV</a>
+                <a href="{{ secure_asset('assets/pdf/CV_Putra_Harapan_Tafonao.pdf') }}" target="_blank" class="btn-secondary"><i class="fas fa-file-alt"></i>Unduh CV</a>
             </div>
             <div class="hero-stats justify-center md:justify-start w-full" data-aos="fade-up" data-aos-delay="300">
                 <div><div class="stat-val">5+</div><div class="stat-lbl">Projects</div></div>
@@ -74,7 +74,7 @@
             <div class="profile-wrap">
                 <div class="profile-glow"></div>
                 <div class="profile-ring"></div>
-                <img src="assets/img/foto-formal.jpg" alt="Putra Harapan Tafonao" class="profile-img"
+                <img src="{{ secure_asset('assets/img/foto-formal.jpg') }}" alt="Foto Profil Resmi Putra Harapan Tafonao" class="profile-img"
                      onerror="this.src='https://via.placeholder.com/320x320/0a1628/00f5d4?text=PHT'">
             </div>
         </div>
@@ -95,7 +95,7 @@
         <div class="about-grid">
             <div class="about-left" data-aos="fade-right" data-aos-delay="100">
                 <div class="photo-frame">
-                    <img src="assets/img/foto-formal.jpg" alt="Putra Harapan Tafonao"
+                    <img src="{{ secure_asset('assets/img/foto-formal.jpg') }}" alt="Putra Harapan Tafonao Portret"
                          onerror="this.src='https://via.placeholder.com/260x330/0a1628/00f5d4?text=Foto+Saya'">
                 </div>
                 <div style="flex:1;">
@@ -206,16 +206,16 @@
         <div id="project-container" class="projects-grid">
             @foreach($projects as $index => $p)
                 <div data-aos="fade-up" data-aos-delay="{{ $index * 110 }}" class="proj-card">
-                    <a href="{{ $p->link }}" target="_blank" rel="noopener noreferrer">
+                    <a href="{{ $p->link }}" target="_blank" rel="noopener noreferrer" aria-label="Lihat Proyek {{ $p->title }}">
                         <div class="proj-img-wrap">
-                            <img src="{{ asset($p->image) }}" alt="{{ $p->title }}" onerror="this.src='{{ $p->fallbackImg }}'">
+                            <img src="{{ secure_asset($p->image) }}" alt="Tampilan Proyek {{ $p->title }}" onerror="this.src='{{ $p->fallbackImg }}'">
                             <div class="proj-overlay">
                                 <span><i class="fas fa-external-link-alt" style="font-size:.7rem"></i>Lihat Proyek</span>
                             </div>
                         </div>
                     </a>
                     <div class="proj-body">
-                        <a href="{{ $p->link }}" target="_blank" class="proj-title">{{ $p->title }}</a>
+                        <a href="{{ $p->link }}" target="_blank" class="proj-title" rel="noopener noreferrer">{{ $p->title }}</a>
                         <p class="proj-desc">{{ $p->description }}</p>
                         <div class="proj-tags">
                             @foreach(explode(',', $p->tags) as $tag)
@@ -273,28 +273,28 @@
                     <span class="section-num">05.</span>
                     <h2 class="section-title">Certificates</h2>
                 </div>
-                <a href="https://www.dicoding.com/certificates/0LZ0Y9473X65" target="_blank" class="cert-card">
+                <a href="https://www.dicoding.com/certificates/0LZ0Y9473X65" target="_blank" rel="noopener noreferrer" class="cert-card" aria-label="Sertifikat Dasar Pemrograman Web Dicoding">
                     <div class="cert-left">
                         <div class="cert-icon"><i class="fas fa-code"></i></div>
                         <div><div class="cert-name">Belajar Dasar Pemrograman Web</div><div class="cert-issuer">Dicoding Indonesia</div></div>
                     </div>
                     <div class="cert-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </a>
-                <a href="https://www.dicoding.com/certificates/ERZRLGY32ZYV" target="_blank" class="cert-card">
+                <a href="https://www.dicoding.com/certificates/ERZRLGY32ZYV" target="_blank" rel="noopener noreferrer" class="cert-card" aria-label="Sertifikat Dasar AI Dicoding">
                     <div class="cert-left">
                         <div class="cert-icon" style="color:#a78bfa;background:rgba(167,139,250,0.1);border-color:rgba(167,139,250,0.2)"><i class="fas fa-robot"></i></div>
                         <div><div class="cert-name">Belajar Dasar AI</div><div class="cert-issuer">Dicoding Indonesia</div></div>
                     </div>
                     <div class="cert-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </a>
-                <a href="https://www.dicoding.com/certificates/MRZMWQJ1RPYQ" target="_blank" class="cert-card">
+                <a href="https://www.dicoding.com/certificates/MRZMWQJ1RPYQ" target="_blank" rel="noopener noreferrer" class="cert-card" aria-label="Sertifikat Pemrograman Kotlin Dicoding">
                     <div class="cert-left">
                         <div class="cert-icon" style="color:#7f52ff;background:rgba(127,82,255,0.1);border-color:rgba(127,82,255,0.2)"><i class="devicon-kotlin-plain" style="font-size:1.05rem"></i></div>
                         <div><div class="cert-name">Memulai Pemrograman dengan Kotlin</div><div class="cert-issuer">Dicoding Indonesia</div></div>
                     </div>
                     <div class="cert-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </a>
-                <a href="https://www.dicoding.com/certificates/JLX1VD2K5Z72" target="_blank" class="cert-card">
+                <a href="https://www.dicoding.com/certificates/JLX1VD2K5Z72" target="_blank" rel="noopener noreferrer" class="cert-card" aria-label="Sertifikat Financial Literacy Dicoding">
                     <div class="cert-left">
                         <div class="cert-icon" style="color:#f97316;background:rgba(249,115,22,0.1);border-color:rgba(249,115,22,0.2)"><i class="fas fa-chart-line"></i></div>
                         <div><div class="cert-name">Introduction to Financial Literacy</div><div class="cert-issuer">Dicoding Indonesia</div></div>
@@ -302,7 +302,7 @@
                     <div class="cert-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </a>
                 <div style="text-align:center;margin-top:1.2rem;">
-                    <a href="https://drive.google.com/drive/folders/1BSOM43RpDUNJiQNDibaI37O80pZB7CJS" target="_blank"
+                    <a href="https://drive.google.com/drive/folders/1BSOM43RpDUNJiQNDibaI37O80pZB7CJS" target="_blank" rel="noopener noreferrer"
                        style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:var(--accent);border:1px solid var(--border);padding:0.65rem 1.4rem;border-radius:6px;text-decoration:none;transition:all 0.28s;"
                        onmouseover="this.style.background='rgba(0,245,212,0.08)';this.style.borderColor='rgba(0,245,212,0.4)'"
                        onmouseout="this.style.background='transparent';this.style.borderColor='var(--border)'">
@@ -322,15 +322,15 @@
                 <h2 class="contact-title">Ayo Berkolaborasi!</h2>
                 <p class="contact-sub">Saya selalu terbuka untuk diskusi mengenai peluang magang, pekerjaan, atau proyek kolaborasi. Jangan ragu menghubungi saya!</p>
                 <div class="contact-btns">
-                    <a href="mailto:putraharapantafonao199@gmail.com" class="btn-primary"><i class="fas fa-paper-plane"></i>Kirim Email</a>
-                    <a href="https://wa.me/6281270857189?text=Halo%20Putra,%20saya%20melihat%20portofolio%20Anda%20dan%20ingin%20berdiskusi%20lebih%20lanjut." target="_blank" class="wa-btn"><i class="fab fa-whatsapp text-lg"></i>WhatsApp</a>
+                    <a href="mailto:putraharapantafonao199@gmail.com" class="btn-primary" aria-label="Kirim Email ke Putra"><i class="fas fa-paper-plane"></i>Kirim Email</a>
+                    <a href="https://wa.me/6281270857189?text=Halo%20Putra,%20saya%20melihat%20portofolio%20Anda%20dan%20ingin%20berdiskusi%20lebih%20lanjut." target="_blank" rel="noopener noreferrer" class="wa-btn" aria-label="Hubungi Putra via WhatsApp"><i class="fab fa-whatsapp text-lg"></i>WhatsApp</a>
                 </div>
                 <div class="divider-h"></div>
                 <div class="socials">
-                    <a href="https://www.linkedin.com/in/putra-harapan-tafonao-83b3b332b" target="_blank" class="soc-btn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://github.com/putraharapantafonao" target="_blank" class="soc-btn" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://www.dicoding.com/users/putraharapantafonao/academies" target="_blank" class="soc-btn" title="Dicoding"><i class="fas fa-laptop-code"></i></a>
-                    <a href="https://www.instagram.com/putraharapantafonao714/profilecard/" target="_blank" class="soc-btn" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.linkedin.com/in/putra-harapan-tafonao-83b3b332b" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="LinkedIn Putra Harapan Tafonao" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="https://github.com/putraharapantafonao" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="GitHub Putra Harapan Tafonao" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.dicoding.com/users/putraharapantafonao/academies" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="Profil Dicoding Putra Harapan Tafonao" title="Dicoding"><i class="fas fa-laptop-code"></i></a>
+                    <a href="https://www.instagram.com/putraharapantafonao714/profilecard/" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="Instagram Putra Harapan Tafonao" title="Instagram"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
         </div>
@@ -342,13 +342,14 @@
     <p class="footer-copy">&copy; 2026 Putra Harapan Tafonao — Built with ♥</p>
 </footer>
 
-<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
 <script>
-    // Membantu inisialisasi AOS setelah halaman selesai dimuat total
     document.addEventListener('DOMContentLoaded', function() {
+        // Inisialisasi AOS dengan mematikan animasi di mobile demi skor performa 100
         AOS.init({
             once: true,
-            mirror: false
+            mirror: false,
+            disable: 'mobile'
         });
     });
 </script>
