@@ -70,7 +70,7 @@
             </p>
             <div class="hero-btns justify-center md:justify-start w-full">
                 <a href="#projects" class="btn-primary"><i class="fas fa-terminal"></i>Lihat Proyek</a>
-                <a href="{{ secure_asset('assets/pdf/CV_Putra_Harapan_Tafonao.pdf') }}" target="_blank" class="btn-secondary"><i class="fas fa-file-alt"></i>Unduh CV</a>
+                <a href="{{ asset('assets/pdf/CV_ATS_Putra_Harapan_Tafonao.pdf') }}" target="_blank" class="btn btn-primary">Unduh CV</a>
             </div>
             <div class="hero-stats justify-center md:justify-start w-full" data-aos="fade-up" data-aos-delay="300">
                 <div><div class="stat-val">5+</div><div class="stat-lbl">Projects</div></div>
