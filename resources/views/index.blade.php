@@ -8,16 +8,20 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
+    <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
     <link rel="dns-prefetch" href="https://unpkg.com">
     <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" media="print" onload="this.media='all'">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" media="print" onload="this.media='all'">
 
     <link rel="stylesheet" href="{{ secure_asset('assets/css/style.css') }}">
+
+    <link rel="preload" as="image" href="{{ secure_asset('assets/img/foto-formal.jpg') }}">
 </head>
 <body class="bg-[#030712] text-gray-100 overflow-x-hidden">
 
@@ -176,7 +180,6 @@
                     <div class="tech-item"><i class="devicon-mysql-plain" style="color:#00758f"></i><span>MySQL</span></div>
                 </div>
             </div>
-
             <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="skill-card-title">// Tools & Design</div>
                 <div class="tech-grid">
@@ -186,7 +189,6 @@
                     <div class="tech-item"><i class="devicon-vscode-plain" style="color:#0078d7"></i><span>VS Code</span></div>
                 </div>
             </div>
-
             <div class="skill-card" data-aos="fade-up" data-aos-delay="400">
                 <div class="skill-card-title">// Soft Skills</div>
                 <div style="display:flex;flex-wrap:wrap;gap:4px;margin-block-start:0.5rem;">
@@ -285,7 +287,7 @@
                     </div>
                     <div class="cert-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </a>
-                <div style="text-align:center;margin-top:1.2rem;">
+                <div style="text-align:center;margin-block-start:1.2rem;">
                     <a href="https://drive.google.com/drive/folders/1BSOM43RpDUNJiQNDibaI37O80pZB7CJS" target="_blank" rel="noopener noreferrer"
                        style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:var(--accent);border:1px solid var(--border);padding:0.65rem 1.4rem;border-radius:6px;text-decoration:none;transition:all 0.28s;"
                        onmouseover="this.style.background='rgba(0,245,212,0.08)';this.style.borderColor='rgba(0,245,212,0.4)'"
@@ -332,7 +334,6 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Inisialisasi AOS (Otomatis nonaktif di mobile untuk melejitkan nilai performa ke zona hijau)
         AOS.init({
             once: true,
             mirror: false,
