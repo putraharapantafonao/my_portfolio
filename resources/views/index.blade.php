@@ -75,7 +75,7 @@
             <div class="hero-stats justify-center md:justify-start w-full" data-aos="fade-up" data-aos-delay="300">
                 <div><div class="stat-val">5+</div><div class="stat-lbl">Projects</div></div>
                 <div class="stat-divider"></div>
-                <div><div class="stat-val">7+</div><div class="stat-lbl">Certs</div></div>
+                <div><div class="stat-val">10+</div><div class="stat-lbl">Certs</div></div>
                 <div class="stat-divider"></div>
                 <div><div class="stat-val">2024</div><div class="stat-lbl">Started</div></div>
             </div>
@@ -225,8 +225,25 @@
                 </div>
                 <div class="timeline">
                     <div class="timeline-bar"></div>
+
                     <div class="t-item">
-                        <div class="t-dot"></div>
+                        <div class="t-dot" style="background:var(--accent);box-shadow:0 0 12px var(--accent)"></div>
+                        <div class="exp-card" style="border-color:rgba(0,245,212,0.25);background:rgba(0,245,212,0.015);">
+                            <div class="exp-title" style="color:var(--accent);">Asisten Laboratorium</div>
+                            <div class="exp-org">Laboratorium Komputer Teknik Informatika Unimal</div>
+                            <div class="exp-date">2025 – Sekarang</div>
+                            <div class="exp-desc">
+                                <ul style="list-style-type:disc; padding-left:1.2rem; margin-top:0.4rem; font-size:0.85rem;" class="flex flex-col gap-1 text-gray-300">
+                                    <li>Memandu jalannya sesi praktikum koding, algoritma, and RPL mahasiswa.</li>
+                                    <li>Mengonfigurasi serta merawat kesiapan hardware dan jaringan komputer lab.</li>
+                                    <li>Membantu dosen mengevaluasi tugas pemrograman dan troubleshooting eror kode.</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="t-item">
+                        <div class="t-dot dim"></div>
                         <div class="exp-card">
                             <div class="exp-title">Anggota Divisi Desain & Broadcasting</div>
                             <div class="exp-org">FORMADIKSI KIP-K Unimal</div>
@@ -234,6 +251,7 @@
                             <div class="exp-desc">Merancang materi visual dan mengelola konten digital organisasi, mengasah keahlian di bidang estetika desain and UI/UX.</div>
                         </div>
                     </div>
+
                     <div class="t-item">
                         <div class="t-dot dim"></div>
                         <div class="exp-card">
@@ -243,6 +261,7 @@
                             <div class="exp-desc">Terjun langsung dalam pendampingan siswa, melatih kecerdasan emosional dan problem-solving lapangan.</div>
                         </div>
                     </div>
+
                     <div class="t-item">
                         <div class="t-dot" style="background:linear-gradient(135deg,var(--accent),var(--primary));box-shadow:0 0 12px var(--accent)"></div>
                         <div class="exp-card" style="border-color:rgba(0,245,212,0.3);background:rgba(0,245,212,0.025);">
