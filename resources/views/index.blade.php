@@ -176,6 +176,7 @@
                     <div class="tech-item"><i class="devicon-mysql-plain" style="color:#00758f"></i><span>MySQL</span></div>
                 </div>
             </div>
+
             <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="skill-card-title">// Tools & Design</div>
                 <div class="tech-grid">
@@ -185,6 +186,7 @@
                     <div class="tech-item"><i class="devicon-vscode-plain" style="color:#0078d7"></i><span>VS Code</span></div>
                 </div>
             </div>
+
             <div class="skill-card" data-aos="fade-up" data-aos-delay="400">
                 <div class="skill-card-title">// Soft Skills</div>
                 <div style="display:flex;flex-wrap:wrap;gap:4px;margin-block-start:0.5rem;">
@@ -283,7 +285,7 @@
                     </div>
                     <div class="cert-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </a>
-                <div style="text-align:center;margin-block-start:1.2rem;">
+                <div style="text-align:center;margin-top:1.2rem;">
                     <a href="https://drive.google.com/drive/folders/1BSOM43RpDUNJiQNDibaI37O80pZB7CJS" target="_blank" rel="noopener noreferrer"
                        style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:var(--accent);border:1px solid var(--border);padding:0.65rem 1.4rem;border-radius:6px;text-decoration:none;transition:all 0.28s;"
                        onmouseover="this.style.background='rgba(0,245,212,0.08)';this.style.borderColor='rgba(0,245,212,0.4)'"
