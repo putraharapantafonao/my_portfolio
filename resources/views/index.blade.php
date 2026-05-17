@@ -226,10 +226,10 @@
                 <div class="timeline">
                     <div class="timeline-bar"></div>
 
-                    <div class="t-item">
-                        <div class="t-dot" style="background:var(--accent);box-shadow:0 0 12px var(--accent)"></div>
-                        <div class="exp-card" style="border-color:rgba(0,245,212,0.25);background:rgba(0,245,212,0.015);">
-                            <div class="exp-title" style="color:var(--accent);">Asisten Laboratorium</div>
+                    <div class="t-item" style="margin-bottom: 2rem; opacity: 1 !important; visibility: visible !important;">
+                        <div class="t-dot" style="background:var(--accent); box-shadow:0 0 12px var(--accent); opacity: 1 !important; visibility: visible !important;"></div>
+                        <div class="exp-card" style="border-color:rgba(0,245,212,0.35); background:rgba(0,245,212,0.025); opacity: 1 !important; visibility: visible !important;">
+                            <div class="exp-title" style="color:var(--accent); font-weight: 600;">Asisten Laboratorium</div>
                             <div class="exp-org">Laboratorium Komputer Teknik Informatika Unimal</div>
                             <div class="exp-date">2025 – Sekarang</div>
                             <div class="exp-desc">
