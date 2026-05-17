@@ -144,7 +144,7 @@
         <div class="section-header" style="justify-content:center;" data-aos="fade-up">
             <span class="section-num">02.</span>
             <h2 class="section-title">Tech Stack</h2>
-            <div class="section-line" style="max-width:200px;"></div>
+            <div class="section-line" style="max-inline-size:200px;"></div>
         </div>
         <div class="skills-grid">
             <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
@@ -183,7 +183,7 @@
             </div>
             <div class="skill-card" data-aos="fade-up" data-aos-delay="400">
                 <div class="skill-card-title">// Soft Skills</div>
-                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:0.5rem;">
+                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-block-start:0.5rem;">
                     <span class="soft-pill"><i class="fas fa-brain"></i>Problem Solving</span>
                     <span class="soft-pill"><i class="fas fa-users"></i>Leadership</span>
                     <span class="soft-pill"><i class="fas fa-handshake"></i>Collaboration</span>
@@ -201,31 +201,9 @@
         <div class="section-header" style="justify-content:center;" data-aos="fade-up">
             <span class="section-num">03.</span>
             <h2 class="section-title">Featured Projects</h2>
-            <div class="section-line" style="max-width:200px;"></div>
+            <div class="section-line" style="max-inline-size:200px;"></div>
         </div>
-        <div id="project-container" class="projects-grid">
-            @foreach($projects as $index => $p)
-                <div data-aos="fade-up" data-aos-delay="{{ $index * 110 }}" class="proj-card">
-                    <a href="{{ $p->link }}" target="_blank" rel="noopener noreferrer" aria-label="Lihat Proyek {{ $p->title }}">
-                        <div class="proj-img-wrap">
-                            <img src="{{ secure_asset($p->image) }}" alt="Tampilan Proyek {{ $p->title }}" onerror="this.src='{{ $p->fallbackImg }}'">
-                            <div class="proj-overlay">
-                                <span><i class="fas fa-external-link-alt" style="font-size:.7rem"></i>Lihat Proyek</span>
-                            </div>
-                        </div>
-                    </a>
-                    <div class="proj-body">
-                        <a href="{{ $p->link }}" target="_blank" class="proj-title" rel="noopener noreferrer">{{ $p->title }}</a>
-                        <p class="proj-desc">{{ $p->description }}</p>
-                        <div class="proj-tags">
-                            @foreach(explode(',', $p->tags) as $tag)
-                                <span class="tag">{{ trim($tag) }}</span>
-                            @endforeach
-                        </div>
-                    </div>
-                </div>
-            @endforeach
-        </div>
+        <div id="project-container" class="projects-grid"></div>
     </div>
 </section>
 
@@ -301,7 +279,7 @@
                     </div>
                     <div class="cert-arrow"><i class="fas fa-external-link-alt"></i></div>
                 </a>
-                <div style="text-align:center;margin-top:1.2rem;">
+                <div style="text-align:center;margin-block-start:1.2rem;">
                     <a href="https://drive.google.com/drive/folders/1BSOM43RpDUNJiQNDibaI37O80pZB7CJS" target="_blank" rel="noopener noreferrer"
                        style="display:inline-flex;align-items:center;gap:8px;font-family:'JetBrains Mono',monospace;font-size:0.76rem;color:var(--accent);border:1px solid var(--border);padding:0.65rem 1.4rem;border-radius:6px;text-decoration:none;transition:all 0.28s;"
                        onmouseover="this.style.background='rgba(0,245,212,0.08)';this.style.borderColor='rgba(0,245,212,0.4)'"
@@ -318,7 +296,7 @@
     <div class="max-w container">
         <div class="contact-box" data-aos="zoom-in">
             <div style="position:relative;z-index:1;">
-                <p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent);letter-spacing:0.12em;margin-bottom:0.8rem;">// get_in_touch()</p>
+                <p style="font-family:'JetBrains Mono',monospace;font-size:0.75rem;color:var(--accent);letter-spacing:0.12em;margin-block-end:0.8rem;">// get_in_touch()</p>
                 <h2 class="contact-title">Ayo Berkolaborasi!</h2>
                 <p class="contact-sub">Saya selalu terbuka untuk diskusi mengenai peluang magang, pekerjaan, atau proyek kolaborasi. Jangan ragu menghubungi saya!</p>
                 <div class="contact-btns">
@@ -343,6 +321,9 @@
 </footer>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+<script src="{{ secure_asset('assets/js/projects.js') }}" defer></script>
+<script src="{{ secure_asset('assets/js/script.js') }}" defer></script>
+
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Inisialisasi AOS dengan mematikan animasi di mobile demi skor performa 100
