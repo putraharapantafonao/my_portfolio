@@ -6,6 +6,12 @@
     <title>Putra Harapan Tafonao | Portofolio</title>
     <meta name="description" content="Portofolio Personal Putra Harapan Tafonao, Mahasiswa Teknik Informatika yang berfokus pada Web Development dan UI/UX Design.">
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link rel="dns-prefetch" href="https://unpkg.com">
+    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -74,7 +80,7 @@
             <div class="profile-wrap">
                 <div class="profile-glow"></div>
                 <div class="profile-ring"></div>
-                <img src="{{ secure_asset('assets/img/foto-formal.jpg') }}" alt="Foto Profil Resmi Putra Harapan Tafonao" class="profile-img"
+                <img src="{{ secure_asset('assets/img/foto-formal.jpg') }}" alt="Foto Profil Resmi Putra Harapan Tafonao" class="profile-img" decoding="async"
                      onerror="this.src='https://via.placeholder.com/320x320/0a1628/00f5d4?text=PHT'">
             </div>
         </div>
@@ -95,7 +101,7 @@
         <div class="about-grid">
             <div class="about-left" data-aos="fade-right" data-aos-delay="100">
                 <div class="photo-frame">
-                    <img src="{{ secure_asset('assets/img/foto-formal.jpg') }}" alt="Putra Harapan Tafonao Portret"
+                    <img src="{{ secure_asset('assets/img/foto-formal.jpg') }}" alt="Putra Harapan Tafonao Portret" loading="lazy" decoding="async"
                          onerror="this.src='https://via.placeholder.com/260x330/0a1628/00f5d4?text=Foto+Saya'">
                 </div>
                 <div style="flex:1;">
@@ -324,7 +330,7 @@
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
-        // Inisialisasi AOS dengan mematikan animasi di mobile demi skor performa 100
+        // Inisialisasi AOS (Otomatis nonaktif di mobile untuk melejitkan nilai performa ke zona hijau)
         AOS.init({
             once: true,
             mirror: false,
