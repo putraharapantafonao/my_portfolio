@@ -177,8 +177,6 @@
                     <div class="tech-item"><i class="devicon-github-original" style="color:#e2e8f0"></i><span>GitHub</span></div>
                     <div class="tech-item"><i class="devicon-figma-plain" style="color:#f24e1e"></i><span>Figma</span></div>
                     <div class="tech-item"><i class="devicon-vscode-plain" style="color:#0078d7"></i><span>VS Code</span></div>
-                    <div class="tech-item"><i class="devicon-linux-plain" style="color:#ffd133"></i><span>Linux</span></div>
-                    <div class="tech-item"><i class="devicon-photoshop-plain" style="color:#31a8ff"></i><span>Photoshop</span></div>
                 </div>
             </div>
             <div class="skill-card" data-aos="fade-up" data-aos-delay="400">
