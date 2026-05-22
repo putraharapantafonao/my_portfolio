@@ -23,7 +23,7 @@
 
     <link rel="preload" as="image" href="{{ secure_asset('assets/img/foto-formal.jpg') }}">
 </head>
-<body class="bg-[#030712] text-gray-100 overflow-x-hidden">
+<body class="bg-[#030712] text-gray-100 overflow-x-hidden transition-colors duration-300">
 
 <canvas id="hero-canvas"></canvas>
 <div class="orb orb-1"></div>
@@ -39,19 +39,29 @@
             <a href="#projects" class="nav-link">projects</a>
             <a href="#experience" class="nav-link">experience</a>
         </div>
-        <div style="display:flex;align-items:center;gap:1rem;">
+        <div style="display:flex;align-items:center;gap:0.75rem;">
+            <a href="/login" class="nav-link text-xs font-mono text-gray-400 hover:text-[var(--accent)] hidden md:block">login_admin()</a>
+            <a href="/crud" class="nav-link text-xs font-mono text-gray-400 hover:text-[var(--accent)] hidden md:block">crud()</a>
+            
             <a href="#contact" class="btn-nav" style="display:none;" id="contact-nav">contact_me()</a>
             <script>document.getElementById('contact-nav').style.display='block';</script>
-            <button id="mobile-btn" aria-label="Buka Menu" onclick="document.getElementById('mobile-menu').style.display=document.getElementById('mobile-menu').style.display==='block'?'none':'block'">
-                <i class="fas fa-bars"></i>
+            
+            <button id="theme-toggle" class="p-2 rounded-lg text-gray-400 hover:text-[var(--accent)] transition-colors" aria-label="Ubah Tema">
+                <i class="fas fa-moon text-lg" id="theme-icon"></i>
+            </button>
+
+            <button id="mobile-btn" class="md:hidden text-gray-400 hover:text-[var(--accent)]" aria-label="Buka Menu" onclick="document.getElementById('mobile-menu').style.display=document.getElementById('mobile-menu').style.display==='block'?'none':'block'">
+                <i class="fas fa-bars text-xl"></i>
             </button>
         </div>
     </div>
-    <div id="mobile-menu">
+    <div id="mobile-menu" class="hidden md:hidden">
         <a href="#about" class="nav-link" onclick="document.getElementById('mobile-menu').style.display='none'">about</a>
         <a href="#skills" class="nav-link" onclick="document.getElementById('mobile-menu').style.display='none'">skills</a>
         <a href="#projects" class="nav-link" onclick="document.getElementById('mobile-menu').style.display='none'">projects</a>
         <a href="#experience" class="nav-link" onclick="document.getElementById('mobile-menu').style.display='none'">experience</a>
+        <a href="/login" class="nav-link font-mono text-xs">login_admin()</a>
+        <a href="/crud" class="nav-link font-mono text-xs">crud()</a>
         <a href="#contact" class="nav-link" onclick="document.getElementById('mobile-menu').style.display='none'">contact</a>
     </div>
 </nav>
@@ -70,7 +80,7 @@
             </p>
             <div class="hero-btns justify-center md:justify-start w-full">
                 <a href="#projects" class="btn-primary"><i class="fas fa-terminal"></i>Lihat Proyek</a>
-                <a href="{{ asset('assets/pdf/CV_ATS_Putra_Harapan_Tafonao.pdf') }}" target="_blank" class="btn btn-primary">Unduh CV</a>
+                <a href="{{ asset('assets/pdf/CV_ATS_Putra_Harapan_Tafonao.pdf') }}" target="_blank" class="btn btn-primary"><i class="fas fa-eye me-2"></i>Lihat CV</a>
             </div>
             <div class="hero-stats justify-center md:justify-start w-full" data-aos="fade-up" data-aos-delay="300">
                 <div><div class="stat-val">5+</div><div class="stat-lbl">Projects</div></div>
@@ -218,7 +228,7 @@
 <section id="experience" class="section-wrap">
     <div class="max-w container">
         <div class="exp-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;">
-            <div data-aos="fade-right">
+            <div>
                 <div class="section-header">
                     <span class="section-num">04.</span>
                     <h2 class="section-title">Experience</h2>
@@ -273,7 +283,7 @@
                 </div>
             </div>
 
-            <div data-aos="fade-left" id="certificates">
+            <div id="certificates">
                 <div class="section-header">
                     <span class="section-num">05.</span>
                     <h2 class="section-title">Certificates</h2>
@@ -357,6 +367,33 @@
             once: true,
             mirror: false,
             disable: 'mobile'
+        });
+
+        // Logika Pengendali Fitur Toggle Dark/Light Mode
+        const themeToggle = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        
+        // Cek preferensi tema lokal jika ada
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.remove('bg-[#030712]', 'text-gray-100');
+            document.body.classList.add('bg-gray-100', 'text-gray-900');
+            themeIcon.classList.replace('fa-moon', 'fa-sun');
+        }
+
+        themeToggle.addEventListener('click', () => {
+            if (document.body.classList.contains('bg-[#030712]')) {
+                // Berubah ke Light Mode
+                document.body.classList.remove('bg-[#030712]', 'text-gray-100');
+                document.body.classList.add('bg-gray-100', 'text-gray-900');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                localStorage.setItem('theme', 'light');
+            } else {
+                // Berubah ke Dark Mode
+                document.body.classList.remove('bg-gray-100', 'text-gray-900');
+                document.body.classList.add('bg-[#030712]', 'text-gray-100');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                localStorage.setItem('theme', 'dark');
+            }
         });
     });
 </script>
