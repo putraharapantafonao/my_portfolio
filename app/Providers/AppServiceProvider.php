@@ -3,7 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Support\Facades\URL; // Memastikan fasad URL ter-import dengan benar
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -20,11 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        /**
-         * PENGAMAN MIXED CONTENT (HTTPS FORCE)
-         * Memaksa Laravel mengubah skema URL asset, @vite, dan route menjadi HTTPS.
-         * Kode ini memeriksa sistem config aplikasi DAN variabel env Docker secara bersamaan.
-         */
         if (config('app.env') === 'production' || env('APP_ENV') === 'production') {
             URL::forceScheme('https');
         }

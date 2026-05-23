@@ -3,25 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Putra Harapan Tafonao | Portofolio</title>
-    <meta name="description" content="Portofolio Personal Putra Harapan Tafonao, Mahasiswa Teknik Informatika yang berfokus pada Web Development dan UI/UX Design.">
+    <title>{{ $profile->title_name ?? 'Putra Harapan Tafonao' }} | Portofolio</title>
+    <meta name="description" content="Portofolio Personal {{ $profile->title_name ?? 'Putra Harapan Tafonao' }}, Mahasiswa Teknik Informatika yang berfokus pada Web Development dan UI/UX Design.">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
     <link rel="preconnect" href="https://unpkg.com" crossorigin>
-    <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link rel="dns-prefetch" href="https://unpkg.com">
-    <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+    <link class="dns-prefetch" href="https://cdnjs.cloudflare.com">
+    <link class="dns-prefetch" href="https://unpkg.com">
+    <link class="dns-prefetch" href="https://cdn.jsdelivr.net">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://unpkg.com/aos@2.3.1/dist/aos.css" media="print" onload="this.media='all'">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.15.1/devicon.min.css" media="print" onload="this.media='all'">
 
-    <link rel="stylesheet" href="{{ secure_asset('assets/css/style.css') }}">
+    <link class="dns-prefetch" href="{{ asset('assets/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
 
-    <link rel="preload" as="image" href="{{ secure_asset('assets/img/foto-formal.jpg') }}">
+    <link rel="preload" as="image" href="{{ asset('assets/img/foto-formal.jpg') }}">
 </head>
 <body class="bg-[#030712] text-gray-100 overflow-x-hidden transition-colors duration-300">
 
@@ -40,17 +41,16 @@
             <a href="#experience" class="nav-link">experience</a>
         </div>
         <div style="display:flex;align-items:center;gap:0.75rem;">
-            <a href="/login" class="nav-link text-xs font-mono text-gray-400 hover:text-[var(--accent)] hidden md:block">login_admin()</a>
-            <a href="/crud" class="nav-link text-xs font-mono text-gray-400 hover:text-[var(--accent)] hidden md:block">crud()</a>
-            
+            <a href="/admin" class="nav-link text-xs font-mono text-gray-400 hover:text-[var(--accent)] hidden md:block">admin_panel()</a>
+
             <a href="#contact" class="btn-nav" style="display:none;" id="contact-nav">contact_me()</a>
             <script>document.getElementById('contact-nav').style.display='block';</script>
-            
+
             <button id="theme-toggle" class="p-2 rounded-lg text-gray-400 hover:text-[var(--accent)] transition-colors" aria-label="Ubah Tema">
                 <i class="fas fa-moon text-lg" id="theme-icon"></i>
             </button>
 
-            <button id="mobile-btn" class="md:hidden text-gray-400 hover:text-[var(--accent)]" aria-label="Buka Menu" onclick="document.getElementById('mobile-menu').style.display=document.getElementById('mobile-menu').style.display==='block'?'none':'block'">
+            <button id="mobile-btn" class="text-gray-400 hover:text-[var(--accent)]" aria-label="Buka Menu" onclick="document.getElementById('mobile-menu').style.display=document.getElementById('mobile-menu').style.display==='block'?'none':'block'">
                 <i class="fas fa-bars text-xl"></i>
             </button>
         </div>
@@ -60,42 +60,43 @@
         <a href="#skills" class="nav-link" onclick="document.getElementById('mobile-menu').style.display='none'">skills</a>
         <a href="#projects" class="nav-link" onclick="document.getElementById('mobile-menu').style.display='none'">projects</a>
         <a href="#experience" class="nav-link" onclick="document.getElementById('mobile-menu').style.display='none'">experience</a>
-        <a href="/login" class="nav-link font-mono text-xs">login_admin()</a>
-        <a href="/crud" class="nav-link font-mono text-xs">crud()</a>
+        <a href="/admin" class="nav-link font-mono text-xs">admin_panel()</a>
         <a href="#contact" class="nav-link" onclick="document.getElementById('mobile-menu').style.display='none'">contact</a>
     </div>
 </nav>
 
 <section id="hero" class="section-wrap">
-    <div class="hero-inner">
-        <div data-aos="fade-up" data-aos-duration="850" class="flex flex-col items-center text-center md:items-start md:text-left">
+    <div class="container">
+        <div data-aos="fade-up" data-aos-duration="850" class="hero-inner">
             <div class="status-pill"><div class="status-dot"></div>Open to Opportunities</div>
+
             <h1 class="hero-name">
-                Putra Harapan<br>
-                <span class="hl">Tafonao</span>
+                @if($profile && $profile->title_name)
+                    @php
+                        $nameParts = explode(' ', $profile->title_name);
+                        $lastName = array_pop($nameParts);
+                        $firstName = implode(' ', $nameParts);
+                    @endphp
+                    {{ $firstName }} <span class="hl">{{ $lastName }}</span>
+                @else
+                    Putra Harapan <span class="hl">Tafonao</span>
+                @endif
             </h1>
-            <p class="hero-role"><span style="color:#334155">$</span> role = <span class="v">"IT Student & Web Developer"</span></p>
-            <p class="hero-desc">
-                Memadukan <strong>logika pemrograman</strong> dengan estetika visual. Berfokus pada <span class="ac">Web Development</span>, <span class="pr">UI/UX Design</span>, dan merancang pengalaman digital yang intuitif.
-            </p>
-            <div class="hero-btns justify-center md:justify-start w-full">
+            <p class="hero-role"><span style="color:#334155">$</span> role = <span class="v">"{{ $profile->sub_title ?? 'IT Student & Web Developer' }}"</span></p>
+
+            <p class="hero-desc"></p>
+
+            <div class="hero-btns">
                 <a href="#projects" class="btn-primary"><i class="fas fa-terminal"></i>Lihat Proyek</a>
                 <a href="{{ asset('assets/pdf/CV_ATS_Putra_Harapan_Tafonao.pdf') }}" target="_blank" class="btn btn-primary"><i class="fas fa-eye me-2"></i>Lihat CV</a>
             </div>
-            <div class="hero-stats justify-center md:justify-start w-full" data-aos="fade-up" data-aos-delay="300">
-                <div><div class="stat-val">5+</div><div class="stat-lbl">Projects</div></div>
+
+            <div class="hero-stats" data-aos="fade-up" data-aos-delay="300">
+                <div><div class="stat-val">{{ \App\Models\Project::count() > 0 ? \App\Models\Project::count() : '0' }}</div><div class="stat-lbl">Projects</div></div>
                 <div class="stat-divider"></div>
                 <div><div class="stat-val">10+</div><div class="stat-lbl">Certs</div></div>
                 <div class="stat-divider"></div>
                 <div><div class="stat-val">2024</div><div class="stat-lbl">Started</div></div>
-            </div>
-        </div>
-        <div data-aos="zoom-in" data-aos-duration="1000" data-aos-delay="200" style="display:flex;justify-content:center;">
-            <div class="profile-wrap">
-                <div class="profile-glow"></div>
-                <div class="profile-ring"></div>
-                <img src="{{ secure_asset('assets/img/foto-formal.jpg') }}" alt="Foto Profil Resmi Putra Harapan Tafonao" class="profile-img" decoding="async"
-                     onerror="this.src='https://via.placeholder.com/320x320/0a1628/00f5d4?text=PHT'">
             </div>
         </div>
     </div>
@@ -115,12 +116,15 @@
         <div class="about-grid">
             <div class="about-left" data-aos="fade-right" data-aos-delay="100">
                 <div class="photo-frame">
-                    <img src="{{ secure_asset('assets/img/foto-formal.jpg') }}" alt="Putra Harapan Tafonao Portret" loading="lazy" decoding="async"
-                         onerror="this.src='https://via.placeholder.com/260x330/0a1628/00f5d4?text=Foto+Saya'">
+                    <img src="{{ ($profile && $profile->profile_image) ? asset('storage/' . $profile->profile_image) : asset('assets/img/foto-formal.jpg') }}"
+                         alt="Putra Harapan Tafonao Portrait"
+                         loading="lazy"
+                         decoding="async"
+                         onerror="this.onerror=null; this.src='https://via.placeholder.com/260x330/0a1628/00f5d4?text=Foto+Saya';">
                 </div>
                 <div style="flex:1;">
                     <div class="code-box">
-                        <span class="cm">// about.config.js</span><br>
+                        <span class="cm">// about me</span><br>
                         <span class="kw">const</span> <span class="fn">putra</span> = {<br>
                         &nbsp;&nbsp;<span class="str">role</span>: <span class="str">"IT Student"</span>,<br>
                         &nbsp;&nbsp;<span class="str">univ</span>: <span class="str">"Unimal"</span>,<br>
@@ -137,8 +141,13 @@
                 </div>
             </div>
             <div data-aos="fade-left" data-aos-delay="200">
-                <p class="about-text">Sebagai <strong>Mahasiswa Teknik Informatika</strong> di Universitas Malikussaleh, saya tertarik pada persimpangan antara teknologi murni dan desain interaksi. Kode yang baik bukan hanya efisien - ia harus menghasilkan antarmuka yang intuitif dan memanjakan pengguna.</p>
-                <p class="about-text">Fokus utama mencakup pengembangan web modern (OOP, RESTful API), eksplorasi AI, dan penerapan prinsip <strong style="color:var(--accent)">UI/UX Design</strong> untuk solusi digital komprehensif. Saya mengutamakan kolaborasi dan sangat adaptif terhadap ekosistem teknologi yang terus berkembang.</p>
+                @if($profile && $profile->about_text)
+                    <p class="about-text" style="white-space: pre-line;">{!! $profile->about_text !!}</p>
+                @else
+                    <p class="about-text">Sebagai <strong>Mahasiswa Teknik Informatika</strong> di Universitas Malikussaleh, saya tertarik pada persimpangan antara teknologi murni dan desain interaksi. Kode yang baik bukan hanya efisien - ia harus menghasilkan antarmuka yang intuitif dan memanjakan pengguna.</p>
+                    <p class="about-text">Fokus utama mencakup pengembangan web modern (OOP, RESTful API), eksplorasi AI, dan penerapan prinsip <strong style="color:var(--accent)">UI/UX Design</strong> untuk solusi digital komprehensif. Saya mengutamakan kolaborasi dan sangat adaptif terhadap ekosistem teknologi yang terus berkembang.</p>
+                @endif
+
                 <div class="subsection-title">// Education</div>
                 <div class="edu-item">
                     <div class="edu-icon"><i class="fas fa-graduation-cap"></i></div>
@@ -166,48 +175,61 @@
             <h2 class="section-title">Tech Stack</h2>
             <div class="section-line" style="max-inline-size:200px;"></div>
         </div>
-        <div class="skills-grid">
+
+        <div class="skills-grid mt-8">
             <div class="skill-card" data-aos="fade-up" data-aos-delay="100">
                 <div class="skill-card-title">// Languages</div>
                 <div class="tech-grid">
-                    <div class="tech-item"><i class="devicon-php-plain" style="color:#7a86b8"></i><span>PHP</span></div>
-                    <div class="tech-item"><i class="devicon-javascript-plain" style="color:#f7df1e"></i><span>JavaScript</span></div>
-                    <div class="tech-item"><i class="devicon-python-plain" style="color:#3572A5"></i><span>Python</span></div>
-                    <div class="tech-item"><i class="devicon-java-plain" style="color:#ea2d2e"></i><span>Java</span></div>
-                    <div class="tech-item"><i class="devicon-kotlin-plain" style="color:#7f52ff"></i><span>Kotlin</span></div>
-                    <div class="tech-item"><i class="devicon-html5-plain" style="color:#e34f26"></i><span>HTML5</span></div>
-                    <div class="tech-item"><i class="devicon-css3-plain" style="color:#1572b6"></i><span>CSS3</span></div>
-                    <div class="tech-item"><i class="devicon-cplusplus-plain" style="color:#00599c"></i><span>C++</span></div>
+                    @forelse($skills->where('category', 'Languages') as $sk)
+                        <div class="tech-item">
+                            <i class="{{ $sk->icon_class }}"></i>
+                            <span>{{ $sk->name }}</span>
+                        </div>
+                    @empty
+                        <div class="col-span-full text-center text-gray-600 font-mono text-xs py-2">Belum ada data Languages</div>
+                    @endforelse
                 </div>
             </div>
+
             <div class="skill-card" data-aos="fade-up" data-aos-delay="200">
                 <div class="skill-card-title">// Frameworks</div>
                 <div class="tech-grid">
-                    <div class="tech-item"><i class="devicon-laravel-plain" style="color:#FF2D20"></i><span>Laravel</span></div>
-                    <div class="tech-item"><i class="devicon-react-original" style="color:#61dafb"></i><span>React</span></div>
-                    <div class="tech-item"><i class="devicon-tailwindcss-plain" style="color:#06b6d4"></i><span>Tailwind</span></div>
-                    <div class="tech-item"><i class="devicon-flutter-plain" style="color:#54c5f8"></i><span>Flutter</span></div>
-                    <div class="tech-item"><i class="devicon-mysql-plain" style="color:#00758f"></i><span>MySQL</span></div>
+                    @forelse($skills->where('category', 'Frameworks') as $sk)
+                        <div class="tech-item">
+                            <i class="{{ $sk->icon_class }}"></i>
+                            <span>{{ $sk->name }}</span>
+                        </div>
+                    @empty
+                        <div class="col-span-full text-center text-gray-600 font-mono text-xs py-2">Belum ada data Frameworks</div>
+                    @endforelse
                 </div>
             </div>
+
             <div class="skill-card" data-aos="fade-up" data-aos-delay="300">
                 <div class="skill-card-title">// Tools & Design</div>
                 <div class="tech-grid">
-                    <div class="tech-item"><i class="devicon-git-plain" style="color:#f05032"></i><span>Git</span></div>
-                    <div class="tech-item"><i class="devicon-github-original" style="color:#e2e8f0"></i><span>GitHub</span></div>
-                    <div class="tech-item"><i class="devicon-figma-plain" style="color:#f24e1e"></i><span>Figma</span></div>
-                    <div class="tech-item"><i class="devicon-vscode-plain" style="color:#0078d7"></i><span>VS Code</span></div>
+                    @forelse($skills->where('category', 'Tools & Design') as $sk)
+                        <div class="tech-item">
+                            <i class="{{ $sk->icon_class }}"></i>
+                            <span>{{ $sk->name }}</span>
+                        </div>
+                    @empty
+                        <div class="col-span-full text-center text-gray-600 font-mono text-xs py-2">Belum ada data Tools & Design</div>
+                    @endforelse
                 </div>
             </div>
+
             <div class="skill-card" data-aos="fade-up" data-aos-delay="400">
                 <div class="skill-card-title">// Soft Skills</div>
-                <div style="display:flex;flex-wrap:wrap;gap:4px;margin-block-start:0.5rem;">
-                    <span class="soft-pill"><i class="fas fa-brain"></i>Problem Solving</span>
-                    <span class="soft-pill"><i class="fas fa-users"></i>Leadership</span>
-                    <span class="soft-pill"><i class="fas fa-handshake"></i>Collaboration</span>
-                    <span class="soft-pill"><i class="fas fa-comments"></i>Communication</span>
-                    <span class="soft-pill"><i class="fas fa-calendar-alt"></i>Event Mgmt</span>
-                    <span class="soft-pill"><i class="fas fa-lightbulb"></i>Creative Thinking</span>
+                <div style="display:flex; flex-direction:column; gap:8px; margin-top:0.75rem;">
+                    @forelse($skills->where('category', 'Soft Skills') as $sk)
+                        <span class="soft-pill" style="display:inline-flex; align-items:center; width:fit-content;">
+                            <i class="{{ $sk->icon_class ?? 'fas fa-brain' }}"></i>
+                            {{ $sk->name }}
+                        </span>
+                    @empty
+                        <div class="text-center text-gray-600 font-mono text-xs py-2">Belum ada data Soft Skills</div>
+                    @endforelse
                 </div>
             </div>
         </div>
@@ -221,7 +243,43 @@
             <h2 class="section-title">Featured Projects</h2>
             <div class="section-line" style="max-inline-size:200px;"></div>
         </div>
-        <div id="project-container" class="projects-grid"></div>
+
+        <div class="projects-grid">
+            @forelse($projects as $index => $p)
+                <div data-aos="fade-up" data-aos-delay="{{ $index * 110 }}" class="proj-card">
+                    <a href="{{ $p->link ?? '#' }}" target="_blank" rel="noopener noreferrer">
+                        <div class="proj-img-wrap">
+                            <img src="{{ $p->image ? asset('storage/' . $p->image) : 'https://via.placeholder.com/400x250/0a1628/00f5d4?text=No+Image' }}" alt="{{ $p->title }}">
+                            <div class="proj-overlay">
+                                <span><i class="fas fa-external-link-alt" style="font-size:.7rem"></i> Lihat Proyek</span>
+                            </div>
+                        </div>
+                    </a>
+                    <div class="proj-body">
+                        <a href="{{ $p->link ?? '#' }}" target="_blank" class="proj-title">{{ $p->title }}</a>
+                        <p class="proj-desc">{{ $p->description }}</p>
+                        <div class="proj-tags">
+                            @foreach(explode(',', $p->tags) as $tag)
+                                <span class="tag">{{ trim($tag) }}</span>
+                            @endforeach
+                        </div>
+                    </div>
+                </div>
+            @empty
+                <div class="col-span-full text-center py-12">
+                    <p class="font-mono text-xs text-gray-500">Belum ada proyek unggulan di database. Akses /admin untuk mengubah data.</p>
+                </div>
+            @endforelse
+        </div>
+
+        <div style="text-align:center; margin-top:4rem;" data-aos="fade-up">
+            <a href="{{ route('projects.archive') }}"
+               style="display:inline-flex; align-items:center; gap:8px; font-family:'JetBrains Mono',monospace; font-size:0.78rem; color:var(--accent); border:1px solid var(--border); padding:0.75rem 1.8rem; border-radius:6px; text-decoration:none; transition:all 0.28s;"
+               onmouseover="this.style.background='rgba(0,245,212,0.08)'; this.style.borderColor='rgba(0,245,212,0.4)';"
+               onmouseout="this.style.background='transparent'; this.style.borderColor='var(--border)';">
+                <i class="fas fa-boxes-stacked"></i> View All Projects (Archive) →
+            </a>
+        </div>
     </div>
 </section>
 
@@ -249,16 +307,6 @@
                                     <li>Membantu dosen mengevaluasi tugas pemrograman dan troubleshooting eror kode.</li>
                                 </ul>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="t-item">
-                        <div class="t-dot dim"></div>
-                        <div class="exp-card">
-                            <div class="exp-title">Anggota Divisi Desain & Broadcasting</div>
-                            <div class="exp-org">FORMADIKSI KIP-K Unimal</div>
-                            <div class="exp-date">2025 – 2026</div>
-                            <div class="exp-desc">Merancang materi visual dan mengelola konten digital organisasi, mengasah keahlian di bidang estetika desain and UI/UX.</div>
                         </div>
                     </div>
 
@@ -342,10 +390,10 @@
                 </div>
                 <div class="divider-h"></div>
                 <div class="socials">
-                    <a href="https://www.linkedin.com/in/putra-harapan-tafonao-83b3b332b" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="LinkedIn Putra Harapan Tafonao" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                    <a href="https://github.com/putraharapantafonao" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="GitHub Putra Harapan Tafonao" title="GitHub"><i class="fab fa-github"></i></a>
-                    <a href="https://www.dicoding.com/users/putraharapantafonao/academies" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="Profil Dicoding Putra Harapan Tafonao" title="Dicoding"><i class="fas fa-laptop-code"></i></a>
-                    <a href="https://www.instagram.com/putraharapantafonao714/profilecard/" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="Instagram Putra Harapan Tafonao" title="Instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="{{ $profile->linkedin_link ?? 'https://www.linkedin.com/in/putra-harapan-tafonao-83b3b332b' }}" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="LinkedIn" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                    <a href="{{ $profile->github_link ?? 'https://github.com/putraharapantafonao' }}" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="GitHub" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://www.dicoding.com/users/putraharapantafonao/academies" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="Profil Dicoding" title="Dicoding"><i class="fas fa-laptop-code"></i></a>
+                    <a href="{{ $profile->instagram_link ?? 'https://www.instagram.com/putraharapantafonao714/profilecard/' }}" target="_blank" rel="noopener noreferrer" class="soc-btn" aria-label="Instagram" title="Instagram"><i class="fab fa-instagram"></i></a>
                 </div>
             </div>
         </div>
@@ -358,8 +406,7 @@
 </footer>
 
 <script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
-<script src="{{ secure_asset('assets/js/projects.js') }}" defer></script>
-<script src="{{ secure_asset('assets/js/script.js') }}" defer></script>
+<script src="{{ asset('assets/js/script.js') }}" defer></script>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -372,8 +419,7 @@
         // Logika Pengendali Fitur Toggle Dark/Light Mode
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
-        
-        // Cek preferensi tema lokal jika ada
+
         if (localStorage.getItem('theme') === 'light') {
             document.body.classList.remove('bg-[#030712]', 'text-gray-100');
             document.body.classList.add('bg-gray-100', 'text-gray-900');
@@ -382,13 +428,11 @@
 
         themeToggle.addEventListener('click', () => {
             if (document.body.classList.contains('bg-[#030712]')) {
-                // Berubah ke Light Mode
                 document.body.classList.remove('bg-[#030712]', 'text-gray-100');
                 document.body.classList.add('bg-gray-100', 'text-gray-900');
                 themeIcon.classList.replace('fa-moon', 'fa-sun');
                 localStorage.setItem('theme', 'light');
             } else {
-                // Berubah ke Dark Mode
                 document.body.classList.remove('bg-gray-100', 'text-gray-900');
                 document.body.classList.add('bg-[#030712]', 'text-gray-100');
                 themeIcon.classList.replace('fa-sun', 'fa-moon');

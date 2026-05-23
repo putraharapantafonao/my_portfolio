@@ -11,14 +11,11 @@ return new class extends Migration
      */
     public function up(): void
 {
-    Schema::create('projects', function (Blueprint $table) {
+    Schema::create('skills', function (Blueprint $table) {
         $table->id();
-        $table->string('title');
-        $table->text('description');
-        $table->string('image')->nullable();
-        $table->string('fallbackImg')->nullable();
-        $table->string('tags');
-        $table->string('link')->nullable();
+        $table->string('name'); // Contoh: Laravel, Flutter
+        $table->string('icon_class'); // Menggunakan FontAwesome atau Devicon (Contoh: fab fa-laravel)
+        $table->string('category')->default('backend'); // frontend, backend, mobile, tools
         $table->timestamps();
     });
 }
@@ -28,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('skills');
     }
 };
