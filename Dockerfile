@@ -19,34 +19,28 @@ RUN rm -f /etc/nginx/sites-enabled/default \
     && rm -f /etc/nginx/sites-available/default \
     && rm -rf /var/www/html/*
 
-# 3. Buat konfigurasi Nginx baru langsung ke folder default utama
-RUN echo 'server { \n\
-    listen 80 default_server; \n\
-    listen [::]:80 default_server; \n\
-    root /var/www/html/public; \n\
-    index index.php index.html; \n\
-    charset utf-8; \n\
-    location / { \n\
-        try_files $uri $uri/ /index.php?$query_string; \n\
-    } \n\
-    location = /favicon.ico { access_log off; log_not_found off; } \n\
-    location = /robots.txt  { access_log off; log_not_found off; } \n\
-    error_page 404 /index.php; \n\
-    location ~ \.php$ { \n\
-        include fastcgi_params; \n\
-    } \n\
+# 3. Buat konfigurasi Nginx baru langsung ke folder default secara presisi
+RUN echo 'server { \
+    listen 80 default_server; \
+    listen [::]:80 default_server; \
+    root /var/www/html/public; \
+    index index.php index.html; \
+    charset utf-8; \
+    location / { \
+        try_files $uri $uri/ /index.php?$query_string; \
+    } \
+    location = /favicon.ico { access_log off; log_not_found off; } \
+    location = /robots.txt  { access_log off; log_not_found off; } \
+    error_page 404 /index.php; \
+    location ~ \.php$ { \
+        include fastcgi_params; \
+        fastcgi_pass 127.0.0.1:9000; \
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \
+    } \
+    location ~ /\.(?!well-known).* { \
+        deny all; \
+    } \
 }' > /etc/nginx/sites-enabled/default
-
-# Perbaikan blok lokasi fastcgi agar tidak memicu pemutusan string Docker
-RUN echo '    location ~ \.php$ { \n\
-        include fastcgi_params; \n\
-        fastcgi_pass 127.0.0.1:9000; \n\
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \n\
-    } \n\
-    location ~ /\.(?!well-known).* { \n\
-        deny all; \n\
-    } \n\
-}' >> /etc/nginx/sites-enabled/default
 
 # 4. Set folder kerja di dalam server
 WORKDIR /var/www/html
