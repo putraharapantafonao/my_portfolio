@@ -64,7 +64,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Memperbarui data proyek dan mengganti gambar lama di folder public.
+     * Memperbarui data proyek dengan proteksi try-catch agar kebal Error 500.
      */
     public function update(Request $request, Project $project) {
         $request->validate([
@@ -81,9 +81,17 @@ class ProjectController extends Controller
 
         // PROSES UPDATE FILE
         if ($request->hasFile('image')) {
-            // Hapus file lama yang ada di folder public/projects jika ada
-            if ($project->image && file_exists(public_path($project->image))) {
-                @unlink(public_path($project->image));
+            // PROTEKSI SIBER: Deteksi dan hapus file lama secara defensif
+            try {
+                if ($project->image && !empty($project->image)) {
+                    $oldPath = public_path($project->image);
+                    // Pastikan file benar-benar ada dan merupakan file fisik (bukan folder)
+                    if (file_exists($oldPath) && is_file($oldPath)) {
+                        @unlink($oldPath);
+                    }
+                }
+            } catch (\Exception $e) {
+                // Abaikan jika file lama tidak ditemukan di server, tetap lanjut upload file baru
             }
 
             $file = $request->file('image');
@@ -99,12 +107,19 @@ class ProjectController extends Controller
     }
 
     /**
-     * Menghapus proyek beserta file gambarnya secara permanen.
+     * Menghapus proyek beserta file gambarnya secara aman.
      */
     public function destroy(Project $project) {
-        // Hapus fisik gambarnya di public/projects
-        if ($project->image && file_exists(public_path($project->image))) {
-            @unlink(public_path($project->image));
+        // PROTEKSI SIBER: Hapus fisik gambarnya di public/projects dengan aman
+        try {
+            if ($project->image && !empty($project->image)) {
+                $oldPath = public_path($project->image);
+                if (file_exists($oldPath) && is_file($oldPath)) {
+                    @unlink($oldPath);
+                }
+            }
+        } catch (\Exception $e) {
+            // Tetap izinkan penghapusan record dari database walaupun file fisik tidak ketemu
         }
 
         $project->delete();
