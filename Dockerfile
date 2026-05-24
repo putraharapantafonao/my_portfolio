@@ -34,13 +34,19 @@ RUN echo 'server { \n\
     error_page 404 /index.php; \n\
     location ~ \.php$ { \n\
         include fastcgi_params; \n\
+    } \n\
+}' > /etc/nginx/sites-enabled/default
+
+# Perbaikan blok lokasi fastcgi agar tidak memicu pemutusan string Docker
+RUN echo '    location ~ \.php$ { \n\
+        include fastcgi_params; \n\
         fastcgi_pass 127.0.0.1:9000; \n\
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \n\
     } \n\
     location ~ /\.(?!well-known).* { \n\
         deny all; \n\
     } \n\
-}' > /etc/nginx/sites-enabled/default
+}' >> /etc/nginx/sites-enabled/default
 
 # 4. Set folder kerja di dalam server
 WORKDIR /var/www/html
@@ -61,5 +67,10 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 EXPOSE 80
 
-# 9. Jalankan PHP-FPM dan Nginx secara bersamaan saat server menyala
-CMD php-fpm -D && nginx -g "daemon off;"
+# 9. PERBAIKAN UTAMA: Jalankan optimasi Laravel, jalankan migrasi database runtime, lalu nyalakan server!
+CMD php artisan config:clear \
+    && php artisan cache:clear \
+    && php artisan view:clear \
+    && php artisan migrate --seed --force \
+    && php-fpm -D \
+    && nginx -g "daemon off;"
