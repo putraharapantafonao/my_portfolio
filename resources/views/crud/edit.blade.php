@@ -14,7 +14,7 @@
             <h2 class="text-xl log-title font-bold font-mono text-yellow-400">update_project_data()</h2>
         </div>
 
-        <form action="{{ route('crud.update', $project->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form action="{{ route('admin.update', $project->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
             @method('PUT')
 
@@ -53,7 +53,7 @@
                 @if($project->image)
                     <div class="mb-3 p-2 bg-[#030712]/50 inline-block rounded border border-gray-800">
                         <p class="text-[10px] font-mono text-gray-500 mb-1">current_mockup_image:</p>
-                        <img src="{{ asset('storage/' . $project->image) }}" class="w-40 h-24 object-cover rounded border border-gray-700 shadow-md">
+                        <img src="{{ asset($project->image) }}" class="w-40 h-24 object-cover rounded border border-gray-700 shadow-md">
                     </div>
                 @endif
 
