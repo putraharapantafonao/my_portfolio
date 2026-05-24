@@ -62,11 +62,10 @@ RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cac
 
 EXPOSE 80
 
-# 9. Jalankan optimasi Laravel, buat jembatan storage, lalu nyalakan server!
-CMD php artisan config:clear \
-    && php artisan cache:clear \
-    && php artisan view:clear \
-    && php artisan migrate --force \
-    && php artisan storage:link --force \
-    && php-fpm -D \
-    && nginx -g "daemon off;"
+# 9. Jalankan optimasi Laravel, jalankan migrasi aman, lalu nyalakan server!CMD php artisan config:clear \
+&& php artisan cache:clear \
+&& php artisan view:clear \
+&& php artisan migrate --force \
+&& php-fpm -D \
+&& nginx -g "daemon off;"
+
