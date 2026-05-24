@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -25,7 +24,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Menyimpan data proyek baru ke dalam database.
+     * Menyimpan data proyek baru langsung ke folder public/projects.
      */
     public function store(Request $request) {
         $request->validate([
@@ -40,8 +39,16 @@ class ProjectController extends Controller
         // VALIDASI CHECKBOX: Jika dicentang set true (1), jika tidak set false (0)
         $data['is_featured'] = $request->has('is_featured') ? true : false;
 
+        // AMAN: Pindahkan file upload langsung ke folder public root
         if ($request->hasFile('image')) {
-            $data['image'] = $request->file('image')->store('projects', 'public');
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            // File fisik dipindahkan langsung ke public/projects di server cloud
+            $file->move(public_path('projects'), $filename);
+
+            // Simpan jalur string murni ke database (Contoh: projects/171650_dlsb.png)
+            $data['image'] = 'projects/' . $filename;
         }
 
         Project::create($data);
@@ -57,7 +64,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Memperbarui data proyek yang diubah di database.
+     * Memperbarui data proyek dan mengganti gambar lama di folder public.
      */
     public function update(Request $request, Project $project) {
         $request->validate([
@@ -72,11 +79,18 @@ class ProjectController extends Controller
         // VALIDASI CHECKBOX
         $data['is_featured'] = $request->has('is_featured') ? true : false;
 
+        // PROSES UPDATE FILE
         if ($request->hasFile('image')) {
-            if ($project->image) {
-                Storage::disk('public')->delete($project->image);
+            // Hapus file lama yang ada di folder public/projects jika ada
+            if ($project->image && file_exists(public_path($project->image))) {
+                @unlink(public_path($project->image));
             }
-            $data['image'] = $request->file('image')->store('projects', 'public');
+
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+
+            $file->move(public_path('projects'), $filename);
+            $data['image'] = 'projects/' . $filename;
         }
 
         $project->update($data);
@@ -84,10 +98,15 @@ class ProjectController extends Controller
         return redirect()->route('admin.index')->with('success', 'Proyek berhasil diperbarui!');
     }
 
+    /**
+     * Menghapus proyek beserta file gambarnya secara permanen.
+     */
     public function destroy(Project $project) {
-        if ($project->image) {
-            Storage::disk('public')->delete($project->image);
+        // Hapus fisik gambarnya di public/projects
+        if ($project->image && file_exists(public_path($project->image))) {
+            @unlink(public_path($project->image));
         }
+
         $project->delete();
 
         return redirect()->route('admin.index')->with('success', 'Proyek sukses dihapus!');
