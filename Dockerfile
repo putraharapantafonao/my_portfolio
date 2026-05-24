@@ -26,6 +26,7 @@ RUN echo 'server { \
     root /var/www/html/public; \
     index index.php index.html; \
     charset utf-8; \
+    client_max_body_size 64M; \
     location / { \
         try_files $uri $uri/ /index.php?$query_string; \
     } \
