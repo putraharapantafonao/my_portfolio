@@ -19,7 +19,7 @@ RUN rm -f /etc/nginx/sites-enabled/default \
     && rm -f /etc/nginx/sites-available/default \
     && rm -rf /var/www/html/*
 
-# 3. Buat konfigurasi Nginx baru langsung ke folder default secara presisi (Nginx & PHP-FPM Handshake Fixed)
+# 3. Buat konfigurasi Nginx baru langsung ke folder default (Membuka Izin Akses Gambar Statis)
 RUN echo 'server { \n\
     listen 80 default_server; \n\
     listen [::]:80 default_server; \n\
@@ -29,6 +29,12 @@ RUN echo 'server { \n\
     client_max_body_size 64M; \n\
     location / { \n\
         try_files $uri $uri/ /index.php?$query_string; \n\
+    } \n\
+    # PERBAIKAN: Izinkan Nginx membaca file gambar secara langsung tanpa interupsi \n\
+    location ~* \.(jpg|jpeg|png|gif|ico|css|js)$ { \n\
+        expires max; \n\
+        log_not_found off; \n\
+        access_log off; \n\
     } \n\
     location = /favicon.ico { access_log off; log_not_found off; } \n\
     location = /robots.txt  { access_log off; log_not_found off; } \n\
