@@ -19,7 +19,7 @@ RUN rm -f /etc/nginx/sites-enabled/default \
     && rm -f /etc/nginx/sites-available/default \
     && rm -rf /var/www/html/*
 
-# 3. Buat konfigurasi Nginx baru langsung ke folder default secara presisi
+# 3. Buat konfigurasi Nginx baru langsung ke folder default secara presisi (FIXED PHP-FPM ROUTE)
 RUN echo 'server { \n\
     listen 80 default_server; \n\
     listen [::]:80 default_server; \n\
@@ -35,6 +35,8 @@ RUN echo 'server { \n\
     error_page 404 /index.php; \n\
     location ~ \.php$ { \n\
         include fastcgi_params; \n\
+        fastcgi_pass 127.0.0.1:9000; \n\
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \n\
     } \n\
     location ~ /\.(?!well-known).* { \n\
         deny all; \n\
