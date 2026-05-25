@@ -67,45 +67,50 @@ class ProjectController extends Controller
      * Memperbarui data proyek dengan proteksi try-catch agar kebal Error 500.
      */
     public function update(Request $request, Project $project) {
-        $request->validate([
-            'title'       => 'required',
-            'description' => 'required',
-            'tags'        => 'required',
-            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
-        ]);
+    $request->validate([
+        'title'       => 'required',
+        'description' => 'required',
+        'tags'        => 'required',
+        'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+    ]);
 
-        $data = $request->all();
+    // 1. Petakan secara manual kolom yang PASTI ADA di database kamu
+    $project->title = $request->title;
+    $project->description = $request->description;
+    $project->tags = $request->tags;
 
-        // VALIDASI CHECKBOX
-        $data['is_featured'] = $request->has('is_featured') ? true : false;
+    // Sinkronisasi checkbox
+    $project->is_featured = $request->has('is_featured') ? true : false;
 
-        // PROSES UPDATE FILE
-        if ($request->hasFile('image')) {
-            // PROTEKSI SIBER: Deteksi dan hapus file lama secara defensif
-            try {
-                if ($project->image && !empty($project->image)) {
-                    $oldPath = public_path($project->image);
-                    // Pastikan file benar-benar ada dan merupakan file fisik (bukan folder)
-                    if (file_exists($oldPath) && is_file($oldPath)) {
-                        @unlink($oldPath);
-                    }
-                }
-            } catch (\Exception $e) {
-                // Abaikan jika file lama tidak ditemukan di server, tetap lanjut upload file baru
-            }
-
-            $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-
-            $file->move(public_path('projects'), $filename);
-            $data['image'] = 'projects/' . $filename;
-        }
-
-        $project->update($data);
-
-        return redirect()->route('admin.index')->with('success', 'Proyek berhasil diperbarui!');
+    // 2. Jika di database kamu nama kolomnya bukan 'link' tapi yang lain, sesuaikan di sini:
+    if ($request->has('link')) {
+        $project->link = $request->link;
     }
 
+    // 3. Proses upload file gambar secara defensif
+    if ($request->hasFile('image')) {
+        try {
+            if ($project->image && !empty($project->image)) {
+                $oldPath = public_path($project->image);
+                if (file_exists($oldPath) && is_file($oldPath)) {
+                    @unlink($oldPath);
+                }
+            }
+        } catch (\Exception $e) {
+            // Abaikan eror jika file lama ga ketemu fisik
+        }
+
+        $file = $request->file('image');
+        $filename = time() . '_' . $file->getClientOriginalName();
+        $file->move(public_path('projects'), $filename);
+        $project->image = 'projects/' . $filename;
+    }
+
+    // 4. Simpan perubahan secara aman
+    $project->save();
+
+    return redirect()->route('admin.index')->with('success', 'Proyek berhasil diperbarui!');
+}
     /**
      * Menghapus proyek beserta file gambarnya secara aman.
      */
