@@ -19,7 +19,7 @@ RUN rm -f /etc/nginx/sites-enabled/default \
     && rm -f /etc/nginx/sites-available/default \
     && rm -rf /var/www/html/*
 
-# 3. Buat konfigurasi Nginx baru langsung ke folder default secara presisi (FIXED PHP-FPM ROUTE)
+# 3. Buat konfigurasi Nginx baru langsung ke folder default secara presisi (Nginx & PHP-FPM Handshake Fixed)
 RUN echo 'server { \n\
     listen 80 default_server; \n\
     listen [::]:80 default_server; \n\
@@ -34,9 +34,12 @@ RUN echo 'server { \n\
     location = /robots.txt  { access_log off; log_not_found off; } \n\
     error_page 404 /index.php; \n\
     location ~ \.php$ { \n\
-        include fastcgi_params; \n\
+        fastcgi_split_path_info ^(.+\.php)(/.+)$; \n\
         fastcgi_pass 127.0.0.1:9000; \n\
+        fastcgi_index index.php; \n\
+        include fastcgi_params; \n\
         fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \n\
+        fastcgi_param PATH_INFO $fastcgi_path_info; \n\
     } \n\
     location ~ /\.(?!well-known).* { \n\
         deny all; \n\
@@ -57,7 +60,7 @@ RUN composer install --no-dev --optimize-autoloader
 RUN npm install \
     && npm run build
 
-# 8. Atur hak akses folder agar Laravel tidak Error 500 (Termasuk folder public/projects)
+# 8. Atur hak akses folder agar Laravel tidak Error 500
 RUN mkdir -p /var/www/html/public/projects \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/projects \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/projects
