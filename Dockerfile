@@ -35,8 +35,6 @@ RUN echo 'server { \n\
     error_page 404 /index.php; \n\
     location ~ \.php$ { \n\
         include fastcgi_params; \n\
-        fastcgi_pass 127.0.0.1:9000; \n\
-        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name; \n\
     } \n\
     location ~ /\.(?!well-known).* { \n\
         deny all; \n\
@@ -57,15 +55,17 @@ RUN composer install --no-dev --optimize-autoloader
 RUN npm install \
     && npm run build
 
-# 8. Atur hak akses folder agar Laravel tidak Error 500
-RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+# 8. Atur hak akses folder agar Laravel tidak Error 500 (Termasuk folder public/projects)
+RUN mkdir -p /var/www/html/public/projects \
+    && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/projects \
+    && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache /var/www/html/public/projects
 
 EXPOSE 80
 
-# 9. Jalankan optimasi Laravel, jalankan migrasi aman, lalu nyalakan server!CMD php artisan config:clear \
-&& php artisan cache:clear \
-&& php artisan view:clear \
-&& php artisan migrate --force \
-&& php-fpm -D \
-&& nginx -g "daemon off;"
-
+# 9. Jalankan optimasi Laravel, jalankan migrasi aman, lalu nyalakan server!
+CMD php artisan config:clear \
+    && php artisan cache:clear \
+    && php artisan view:clear \
+    && php artisan migrate --force \
+    && php-fpm -D \
+    && nginx -g "daemon off;"
