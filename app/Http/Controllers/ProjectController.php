@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
@@ -34,10 +34,16 @@ class ProjectController extends Controller
             'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        $data = $request->all();
+        // PROTEKSI: Mapping data secara eksplisit agar kebal SQL Mismatch Error
+        $project = new Project();
+        $project->title = $request->title;
+        $project->description = $request->description;
+        $project->tags = $request->tags;
+        $project->is_featured = $request->has('is_featured') ? true : false;
 
-        // VALIDASI CHECKBOX: Jika dicentang set true (1), jika tidak set false (0)
-        $data['is_featured'] = $request->has('is_featured') ? true : false;
+        if ($request->has('link')) {
+            $project->link = $request->link;
+        }
 
         // AMAN: Pindahkan file upload langsung ke folder public root
         if ($request->hasFile('image')) {
@@ -48,12 +54,13 @@ class ProjectController extends Controller
             $file->move(public_path('projects'), $filename);
 
             // Simpan jalur string murni ke database (Contoh: projects/171650_dlsb.png)
-            $data['image'] = 'projects/' . $filename;
+            $project->image = 'projects/' . $filename;
         }
 
-        Project::create($data);
+        $project->save();
 
-        return redirect()->route('admin.index')->with('success', 'Proyek berhasil ditambah!');
+        // SINKRON: Kembali ke halaman utama menggunakan rute crud.index
+        return redirect()->route('crud.index')->with('success', 'Proyek berhasil ditambah!');
     }
 
     /**
@@ -67,50 +74,52 @@ class ProjectController extends Controller
      * Memperbarui data proyek dengan proteksi try-catch agar kebal Error 500.
      */
     public function update(Request $request, Project $project) {
-    $request->validate([
-        'title'       => 'required',
-        'description' => 'required',
-        'tags'        => 'required',
-        'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
-    ]);
+        $request->validate([
+            'title'       => 'required',
+            'description' => 'required',
+            'tags'        => 'required',
+            'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
+        ]);
 
-    // 1. Petakan secara manual kolom yang PASTI ADA di database kamu
-    $project->title = $request->title;
-    $project->description = $request->description;
-    $project->tags = $request->tags;
+        // 1. Petakan secara manual kolom yang PASTI ADA di database kamu
+        $project->title = $request->title;
+        $project->description = $request->description;
+        $project->tags = $request->tags;
 
-    // Sinkronisasi checkbox
-    $project->is_featured = $request->has('is_featured') ? true : false;
+        // Sinkronisasi checkbox
+        $project->is_featured = $request->has('is_featured') ? true : false;
 
-    // 2. Jika di database kamu nama kolomnya bukan 'link' tapi yang lain, sesuaikan di sini:
-    if ($request->has('link')) {
-        $project->link = $request->link;
-    }
-
-    // 3. Proses upload file gambar secara defensif
-    if ($request->hasFile('image')) {
-        try {
-            if ($project->image && !empty($project->image)) {
-                $oldPath = public_path($project->image);
-                if (file_exists($oldPath) && is_file($oldPath)) {
-                    @unlink($oldPath);
-                }
-            }
-        } catch (\Exception $e) {
-            // Abaikan eror jika file lama ga ketemu fisik
+        // 2. Jika di database kamu nama kolomnya bukan 'link' tapi yang lain, sesuaikan di sini:
+        if ($request->has('link')) {
+            $project->link = $request->link;
         }
 
-        $file = $request->file('image');
-        $filename = time() . '_' . $file->getClientOriginalName();
-        $file->move(public_path('projects'), $filename);
-        $project->image = 'projects/' . $filename;
+        // 3. Proses upload file gambar secara defensif
+        if ($request->hasFile('image')) {
+            try {
+                if ($project->image && !empty($project->image)) {
+                    $oldPath = public_path($project->image);
+                    if (file_exists($oldPath) && is_file($oldPath)) {
+                        @unlink($oldPath);
+                    }
+                }
+            } catch (\Exception $e) {
+                // Abaikan eror jika file lama ga ketemu fisik
+            }
+
+            $file = $request->file('image');
+            $filename = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('projects'), $filename);
+            $project->image = 'projects/' . $filename;
+        }
+
+        // 4. Simpan perubahan secara aman
+        $project->save();
+
+        // SINKRON: Kembali ke halaman utama menggunakan rute crud.index
+        return redirect()->route('crud.index')->with('success', 'Proyek berhasil diperbarui!');
     }
 
-    // 4. Simpan perubahan secara aman
-    $project->save();
-
-    return redirect()->route('admin.index')->with('success', 'Proyek berhasil diperbarui!');
-}
     /**
      * Menghapus proyek beserta file gambarnya secara aman.
      */
@@ -129,6 +138,7 @@ class ProjectController extends Controller
 
         $project->delete();
 
-        return redirect()->route('admin.index')->with('success', 'Proyek sukses dihapus!');
+        // SINKRON: Kembali ke halaman utama menggunakan rute crud.index
+        return redirect()->route('crud.index')->with('success', 'Proyek sukses dihapus!');
     }
 }

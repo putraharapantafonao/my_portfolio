@@ -14,7 +14,7 @@
             <h2 class="text-xl log-title font-bold font-mono text-yellow-400">update_project_data()</h2>
         </div>
 
-        <form action="{{ route('admin.update', $project->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
+        <form action="{{ route('crud.update', $project->id) }}" method="POST" enctype="multipart/form-data" class="space-y-4">
             @csrf
             @method('PUT')
 

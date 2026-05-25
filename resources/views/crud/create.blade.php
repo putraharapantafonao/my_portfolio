@@ -24,8 +24,7 @@
             <h2 class="text-xl log-title font-bold font-mono text-[#00f5d4]">add_new_project()</h2>
         </div>
 
-        <form action="{{ route('admin.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-            @csrf
+        <form action="{{ route('crud.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
 
             <div>
                 <label class="block text-xs font-mono text-gray-400 mb-1">Judul Proyek</label>
