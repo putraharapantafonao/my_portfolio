@@ -59,8 +59,8 @@ class ProjectController extends Controller
 
         $project->save();
 
-        // SINKRON: Kembali ke halaman utama menggunakan rute crud.index
-        return redirect()->route('crud.index')->with('success', 'Proyek berhasil ditambah!');
+        // FIX SINKRONISASI: Pengalihan dialihkan ke admin.index setelah sukses input
+        return redirect()->route('admin.index')->with('success', 'Proyek berhasil ditambah!');
     }
 
     /**
@@ -116,8 +116,8 @@ class ProjectController extends Controller
         // 4. Simpan perubahan secara aman
         $project->save();
 
-        // SINKRON: Kembali ke halaman utama menggunakan rute crud.index
-        return redirect()->route('crud.index')->with('success', 'Proyek berhasil diperbarui!');
+        // FIX SINKRONISASI: Pengalihan dialihkan ke admin.index setelah sukses update
+        return redirect()->route('admin.index')->with('success', 'Proyek berhasil diperbarui!');
     }
 
     /**
@@ -138,7 +138,7 @@ class ProjectController extends Controller
 
         $project->delete();
 
-        // SINKRON: Kembali ke halaman utama menggunakan rute crud.index
-        return redirect()->route('crud.index')->with('success', 'Proyek sukses dihapus!');
+        // FIX SINKRONISASI: Pengalihan dialihkan ke admin.index setelah sukses hapus
+        return redirect()->route('admin.index')->with('success', 'Proyek sukses dihapus!');
     }
 }
