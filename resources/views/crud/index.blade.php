@@ -190,7 +190,7 @@
                     @forelse($projects as $p)
                     <tr class="hover:bg-white/[0.02] transition">
                         <td class="p-4">
-                            <img src="{{ $p->image ? asset($p->image) : 'https://via.placeholder.com/150x90/0a1628/00f5d4?text=Mockup' }}" class="w-20 h-12 object-cover rounded border border-gray-700">
+                            <img src="{{ $p->image ? asset('storage/' . $p->image) : 'https://via.placeholder.com/150x90/0a1628/00f5d4?text=Mockup' }}" class="w-20 h-12 object-cover rounded border border-gray-700">
                         </td>
                         <td class="p-4 font-bold text-gray-200">{{ $p->title }}</td>
                         <td class="p-4 text-gray-400 max-w-xs truncate">{{ $p->description }}</td>
