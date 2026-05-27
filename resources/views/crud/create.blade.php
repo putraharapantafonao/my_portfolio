@@ -25,7 +25,7 @@
         </div>
 
         <form action="{{ route('crud.store') }}" method="POST" enctype="multipart/form-data" class="space-y-4">
-
+            @csrf
             <div>
                 <label class="block text-xs font-mono text-gray-400 mb-1">Judul Proyek</label>
                 <input type="text" name="title" placeholder="Contoh: ODRIN.id — Digital Delivery Service" class="w-full bg-[#030712] border border-gray-700 rounded p-2 text-sm text-gray-200 focus:border-teal-400 outline-none transition" required>
