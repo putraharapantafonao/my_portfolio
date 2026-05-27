@@ -45,7 +45,8 @@
                 <div data-aos="fade-up" data-aos-delay="{{ $index * 110 }}" class="proj-card">
                     <a href="{{ $p->link ?? '#' }}" target="_blank" rel="noopener noreferrer">
                         <div class="proj-img-wrap">
-                            <img src="{{ $p->image ? asset('storage/' . $p->image) : 'https://via.placeholder.com/400x250/0a1628/00f5d4?text=No+Image' }}" alt="{{ $p->title }}">
+                            <!-- FIX PATH IMAGES: Menghapus 'storage/' agar langsung merujuk ke folder public murni -->
+                            <img src="{{ $p->image ? asset($p->image) : 'https://via.placeholder.com/400x250/0a1628/00f5d4?text=No+Image' }}" alt="{{ $p->title }}">
                             <div class="proj-overlay">
                                 <span><i class="fas fa-external-link-alt" style="font-size:.7rem"></i> Lihat Proyek</span>
                             </div>

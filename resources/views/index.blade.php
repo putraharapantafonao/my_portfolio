@@ -116,7 +116,8 @@
         <div class="about-grid">
             <div class="about-left" data-aos="fade-right" data-aos-delay="100">
                 <div class="photo-frame">
-                    <img src="{{ ($profile && $profile->profile_image) ? asset('storage/' . $profile->profile_image) : asset('assets/img/foto-formal.jpg') }}"
+                    <!-- FIX PATH PROFIL: Membaca langsung jalur dinamis publik murni tanpa teks 'storage/' -->
+                    <img src="{{ ($profile && $profile->profile_image) ? asset($profile->profile_image) : asset('assets/img/foto-formal.jpg') }}"
                          alt="Putra Harapan Tafonao Portrait"
                          loading="lazy"
                          decoding="async"
@@ -144,7 +145,7 @@
                 @if($profile && $profile->about_text)
                     <p class="about-text" style="white-space: pre-line;">{!! $profile->about_text !!}</p>
                 @else
-                    <p class="about-text">Sebagai <strong>Mahasiswa Teknik Informatika</strong> di Universitas Malikussaleh, saya tertarik pada persimpangan antara teknologi murni dan desain interaksi. Kode yang baik bukan hanya efisien - ia harus menghasilkan antarmuka yang intuitif dan memanjakan pengguna.</p>
+                    <p class="about-text">Sebagai <strong>Mahasiswa Teknik Informatika</strong> di Universitas Malikussaleh, saya tertarik pada persimpangan antara teknologi murni and desain interaksi. Kode yang baik bukan hanya efisien - ia harus menghasilkan antarmuka yang intuitif dan memanjakan pengguna.</p>
                     <p class="about-text">Fokus utama mencakup pengembangan web modern (OOP, RESTful API), eksplorasi AI, dan penerapan prinsip <strong style="color:var(--accent)">UI/UX Design</strong> untuk solusi digital komprehensif. Saya mengutamakan kolaborasi dan sangat adaptif terhadap ekosistem teknologi yang terus berkembang.</p>
                 @endif
 
@@ -249,7 +250,8 @@
                 <div data-aos="fade-up" data-aos-delay="{{ $index * 110 }}" class="proj-card">
                     <a href="{{ $p->link ?? '#' }}" target="_blank" rel="noopener noreferrer">
                         <div class="proj-img-wrap">
-                            <img src="{{ $p->image ? asset('storage/' . $p->image) : 'https://via.placeholder.com/400x250/0a1628/00f5d4?text=No+Image' }}" alt="{{ $p->title }}">
+                            <!-- FIX PROYEK: Langsung asset() karena string di DB sudah berawalan kata projects/ -->
+                            <img src="{{ $p->image ? asset($p->image) : 'https://via.placeholder.com/400x250/0a1628/00f5d4?text=No+Image' }}" alt="{{ $p->title }}">
                             <div class="proj-overlay">
                                 <span><i class="fas fa-external-link-alt" style="font-size:.7rem"></i> Lihat Proyek</span>
                             </div>
@@ -416,7 +418,6 @@
             disable: 'mobile'
         });
 
-        // Logika Pengendali Fitur Toggle Dark/Light Mode
         const themeToggle = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
 

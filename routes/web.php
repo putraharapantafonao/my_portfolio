@@ -18,8 +18,9 @@ Route::get('/', function () {
     ]);
 });
 
-// ====================  HALAMAN ARSIP SEMUA PROYEK ====================
-Route::get('/projects', function () {
+// ==================== HALAMAN ARSIP SEMUA PROYEK ====================
+// FIX: Mengubah URL menjadi /project-archive agar tidak bertabrakan dengan folder public/projects
+Route::get('/project-archive', function () {
     return view('projects.archive', [
         // Mengambil seluruh data proyek yang ada di database untuk halaman arsip khusus
         'all_projects' => Project::latest()->get()
@@ -27,13 +28,13 @@ Route::get('/projects', function () {
 })->name('projects.archive');
 
 
-// ====================  ROUTE LOGIN UTAMA ====================
+// ==================== ROUTE LOGIN UTAMA ====================
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 
-// ====================  GRUP PROTEKSI URL /ADMIN (MIDDLEWARE) ====================
+// ==================== GRUP PROTEKSI URL /ADMIN (MIDDLEWARE) ====================
 Route::middleware(['auth'])->group(function () {
 
     // Dashboard Utama Admin
@@ -44,7 +45,7 @@ Route::middleware(['auth'])->group(function () {
 
     // CRUD Skills / Tech Stack
     Route::post('/admin/skills', [AdminController::class, 'storeSkill'])->name('admin.skills.store');
-    $dataSkillDelet = Route::delete('/admin/skills/{id}', [AdminController::class, 'destroySkill'])->name('admin.skills.destroy');
+    Route::delete('/admin/skills/{id}', [AdminController::class, 'destroySkill'])->name('admin.skills.destroy');
 
     // CRUD Projects (Akses Formulir & Aksi dialihkan ke awalan /admin)
     Route::get('/admin/create', [ProjectController::class, 'create'])->name('crud.create');
