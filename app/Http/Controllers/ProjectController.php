@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProjectController extends Controller
 {
@@ -11,7 +12,6 @@ class ProjectController extends Controller
      * Menampilkan daftar semua proyek di halaman dashboard admin.
      */
     public function index() {
-        // Mengambil seluruh proyek untuk dimanage di tabel dashboard
         $projects = Project::latest()->get();
         return view('crud.index', compact('projects'));
     }
@@ -24,7 +24,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Menyimpan data proyek baru langsung ke folder public/projects.
+     * Menyimpan data proyek baru dengan mematuhi hak akses storage cloud.
      */
     public function store(Request $request) {
         $request->validate([
@@ -34,7 +34,6 @@ class ProjectController extends Controller
             'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        // PROTEKSI: Mapping data secara eksplisit agar kebal SQL Mismatch Error
         $project = new Project();
         $project->title = $request->title;
         $project->description = $request->description;
@@ -45,22 +44,15 @@ class ProjectController extends Controller
             $project->link = $request->link;
         }
 
-        // AMAN: Pindahkan file upload langsung ke folder public root
         if ($request->hasFile('image')) {
-            $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $request->file('image')->store('projects', 'public');
 
-            // File fisik dipindahkan langsung ke public/projects di server cloud
-            $file->move(public_path('projects'), $filename);
-
-            // Simpan jalur string murni ke database (Contoh: projects/171650_dlsb.png)
-            $project->image = 'projects/' . $filename;
+            $project->image = $path;
         }
 
         $project->save();
 
-        // FIX SINKRONISASI: Pengalihan dialihkan ke admin.index setelah sukses input
-        return redirect()->route('admin.index')->with('success', 'Proyek berhasil ditambah!');
+        return redirect()->route('crud.index')->with('success', 'Proyek berhasil ditambah!');
     }
 
     /**
@@ -71,7 +63,7 @@ class ProjectController extends Controller
     }
 
     /**
-     * Memperbarui data proyek dengan proteksi try-catch agar kebal Error 500.
+     * Memperbarui data proyek dengan manajemen pembersihan berkas dari disk storage.
      */
     public function update(Request $request, Project $project) {
         $request->validate([
@@ -81,64 +73,39 @@ class ProjectController extends Controller
             'image'       => 'nullable|image|mimes:jpg,jpeg,png|max:2048'
         ]);
 
-        // 1. Petakan secara manual kolom yang PASTI ADA di database kamu
         $project->title = $request->title;
         $project->description = $request->description;
         $project->tags = $request->tags;
-
-        // Sinkronisasi checkbox
         $project->is_featured = $request->has('is_featured') ? true : false;
 
-        // 2. Jika di database kamu nama kolomnya bukan 'link' tapi yang lain, sesuaikan di sini:
         if ($request->has('link')) {
             $project->link = $request->link;
         }
 
-        // 3. Proses upload file gambar secara defensif
         if ($request->hasFile('image')) {
-            try {
-                if ($project->image && !empty($project->image)) {
-                    $oldPath = public_path($project->image);
-                    if (file_exists($oldPath) && is_file($oldPath)) {
-                        @unlink($oldPath);
-                    }
-                }
-            } catch (\Exception $e) {
-                // Abaikan eror jika file lama ga ketemu fisik
+            if ($project->image && Storage::disk('public')->exists($project->image)) {
+                Storage::disk('public')->delete($project->image);
             }
 
-            $file = $request->file('image');
-            $filename = time() . '_' . $file->getClientOriginalName();
-            $file->move(public_path('projects'), $filename);
-            $project->image = 'projects/' . $filename;
+            $path = $request->file('image')->store('projects', 'public');
+            $project->image = $path;
         }
 
-        // 4. Simpan perubahan secara aman
         $project->save();
 
-        // FIX SINKRONISASI: Pengalihan dialihkan ke admin.index setelah sukses update
-        return redirect()->route('admin.index')->with('success', 'Proyek berhasil diperbarui!');
+        return redirect()->route('crud.index')->with('success', 'Proyek berhasil diperbarui!');
     }
 
     /**
-     * Menghapus proyek beserta file gambarnya secara aman.
+     * Menghapus proyek beserta file gambarnya secara aman dari disk storage.
      */
     public function destroy(Project $project) {
-        // PROTEKSI SIBER: Hapus fisik gambarnya di public/projects dengan aman
-        try {
-            if ($project->image && !empty($project->image)) {
-                $oldPath = public_path($project->image);
-                if (file_exists($oldPath) && is_file($oldPath)) {
-                    @unlink($oldPath);
-                }
-            }
-        } catch (\Exception $e) {
-            // Tetap izinkan penghapusan record dari database walaupun file fisik tidak ketemu
+        if ($project->image && Storage::disk('public')->exists($project->image)) {
+            Storage::disk('public')->delete($project->image);
         }
 
         $project->delete();
 
-        // FIX SINKRONISASI: Pengalihan dialihkan ke admin.index setelah sukses hapus
-        return redirect()->route('admin.index')->with('success', 'Proyek sukses dihapus!');
+        return redirect()->route('crud.index')->with('success', 'Proyek sukses dihapus!');
     }
 }
