@@ -46,13 +46,12 @@ class ProjectController extends Controller
 
         if ($request->hasFile('image')) {
             $path = $request->file('image')->store('projects', 'public');
-
             $project->image = $path;
         }
 
         $project->save();
 
-        return redirect()->route('crud.index')->with('success', 'Proyek berhasil ditambah!');
+        return redirect()->route('admin.index')->with('success', 'Proyek berhasil ditambah!');
     }
 
     /**
@@ -93,7 +92,7 @@ class ProjectController extends Controller
 
         $project->save();
 
-        return redirect()->route('crud.index')->with('success', 'Proyek berhasil diperbarui!');
+        return redirect()->route('admin.index')->with('success', 'Proyek berhasil diperbarui!');
     }
 
     /**
@@ -106,6 +105,6 @@ class ProjectController extends Controller
 
         $project->delete();
 
-        return redirect()->route('crud.index')->with('success', 'Proyek sukses dihapus!');
+        return redirect()->route('admin.index')->with('success', 'Proyek sukses dihapus!');
     }
 }
