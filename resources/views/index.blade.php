@@ -9,10 +9,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://cdnjs.cloudflare.com" crossorigin>
-    <link rel="preconnect" href="https://unpkg.com" crossorigin>
     <link class="dns-prefetch" href="https://cdnjs.cloudflare.com">
-    <link class="dns-prefetch" href="https://unpkg.com">
-    <link class="dns-prefetch" href="https://cdn.jsdelivr.net">
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
@@ -116,8 +113,7 @@
         <div class="about-grid">
             <div class="about-left" data-aos="fade-right" data-aos-delay="100">
                 <div class="photo-frame">
-                    <!-- FIX PATH PROFIL: Membaca langsung jalur dinamis publik murni tanpa teks 'storage/' -->
-                    <img src="{{ ($profile && $profile->profile_image) ? asset($profile->profile_image) : asset('assets/img/foto-formal.jpg') }}"
+                    <img src="{{ ($profile && $profile->profile_image) ? asset('storage/' . $profile->profile_image) : asset('assets/img/foto-formal.jpg') }}"
                          alt="Putra Harapan Tafonao Portrait"
                          loading="lazy"
                          decoding="async"
@@ -250,8 +246,7 @@
                 <div data-aos="fade-up" data-aos-delay="{{ $index * 110 }}" class="proj-card">
                     <a href="{{ $p->link ?? '#' }}" target="_blank" rel="noopener noreferrer">
                         <div class="proj-img-wrap">
-                            <!-- FIX PROYEK: Langsung asset() karena string di DB sudah berawalan kata projects/ -->
-                            <img src="{{ $p->image ? asset($p->image) : 'https://via.placeholder.com/400x250/0a1628/00f5d4?text=No+Image' }}" alt="{{ $p->title }}">
+                            <img src="{{ $p->image ? asset('storage/' . $p->image) : 'https://via.placeholder.com/400x250/0a1628/00f5d4?text=No+Image' }}" alt="{{ $p->title }}">
                             <div class="proj-overlay">
                                 <span><i class="fas fa-external-link-alt" style="font-size:.7rem"></i> Lihat Proyek</span>
                             </div>
