@@ -6,6 +6,7 @@ use App\Models\Profile;
 use App\Models\Skill;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -21,7 +22,7 @@ class AdminController extends Controller
     }
 
     /**
-     * Memperbarui data profil beserta foto utama langsung ke folder public.
+     * Memperbarui data profil beserta foto utama menggunakan disk storage publik.
      */
     public function updateProfile(Request $request) {
         $request->validate([
@@ -44,16 +45,13 @@ class AdminController extends Controller
         $profile->instagram_link = $request->instagram_link;
 
         if ($request->hasFile('profile_image')) {
-            if ($profile->profile_image && file_exists(public_path($profile->profile_image))) {
-                @unlink(public_path($profile->profile_image));
+            if ($profile->profile_image && Storage::disk('public')->exists($profile->profile_image)) {
+                Storage::disk('public')->delete($profile->profile_image);
             }
 
-            $file = $request->file('profile_image');
-            $filename = time() . '_' . $file->getClientOriginalName();
+            $path = $request->file('profile_image')->store('profiles', 'public');
 
-            $file->move(public_path('profiles'), $filename);
-
-            $profile->profile_image = 'profiles/' . $filename;
+            $profile->profile_image = $path;
         }
 
         $profile->save();
